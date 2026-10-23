@@ -165,12 +165,12 @@ free-tier Gemini key (20 requests a day). It got through 14 of 16 cases (on earl
 ### Weakness found in the baseline
 
 v1 asks the model to transcribe every fact it finds, including every monthly cell of the electricity workbook.
-That breaks on the one large table in the dataset, in a different way per model:
-- **DeepSeek:** the output ran past the 32k-token limit. The workbook failed after 4 attempts and every workbook
-  question came back `not_found`.
+The output therefore grows with the size of the table, and that broke on the one large table in the dataset:
+- **DeepSeek:** the output ran past the 32k-token cap the client then used. The workbook failed after 4 attempts
+  and every workbook question came back `not_found`.
 - **Gemini:** the output fit only because the model skipped the monthly rows and returned 9 annual facts. The FY
   engine then had to prorate the calendar-year total, so FY 2025-26 came out as 597,976 kWh instead of
-  584,323 kWh (Jan to Mar 2026), and Q1's 585,323 vs 584,323 disagreement went unseen.
+  584,323 kWh (Jan to Mar 2026).
 
 ### The change (v2)
 
@@ -184,76 +184,109 @@ For spreadsheets, the model now describes each table instead of copying it. For 
 and has its period parsed from the row label. The model still lists totals and the arithmetic relations, so the
 checks still run.
 
-Output size no longer grows with the table: the workbook went from failing to 335 cell-cited facts. Nothing else
-changed. The same documents are reused (`--reuse-db baseline`), only the workbook is re-extracted, and the
-answer step and prompts are identical.
+Nothing else changes between the two pipelines. The improved run reuses the baseline's documents
+(`--reuse-db baseline`) and re-extracts only the workbook.
 
 ### Results
 
 | | Baseline (v1) | Improved (v2) |
 |---|---|---|
-| Cases passed, main run | 5/16 | 10/16 |
-| Cases passed, 5 runs | 5, 8, 6, 6, 5 (mean 6.0) | 10, 11, 9, 9, 12 (mean 10.2) |
-| Mean overall score, 5 runs | 0.67 | 0.87 |
+| Cases passed, main run | 5/16 | 8/16 |
+| Cases passed, 5 runs | 5, 7, 6, 6, 5 (mean 5.8) | 8, 10, 8, 9, 8 (mean 8.6) |
+| Mean overall score, 5 runs | 0.69 | 0.87 |
 
-The answer step is not deterministic, even at temperature 0, because OpenRouter routes calls across hosts. One
-run per pipeline cannot tell an effect from noise, so the answer step was run five times on each pipeline's
-extracted documents (`make eval-repeats`). Cases whose evidence does not include the workbook get byte-identical
-model input in both pipelines (checked), which makes them a noise control:
+The answer step is not deterministic, even at temperature 0. One run per pipeline cannot tell an effect from
+noise, so the answer step was run five times on each pipeline's extracted documents (`make eval-repeats`). Cases
+whose evidence does not include the workbook get byte-identical model input in both pipelines (checked), which
+makes them a noise control:
 
-| Cases | Baseline pass rate | Improved pass rate | Gap |
-|---|---|---|---|
-| Evidence includes the re-extracted workbook (6) | 30% (9/30) | 80% (24/30) | +50 points |
-| Identical evidence in both pipelines (10) | 42% (21/50) | 54% (27/50) | +12 points, all noise |
-
-The control group's gap shows how large pure noise is on this suite. Across the three full rounds of runs made
-while fixing the bugs below, it was −2, −4 and +12 points, while the touched cases' gap was +56, +50 and +50.
-A single run per pipeline would not have shown this. For example, C06 has the same input in both pipelines and
-passed 1/5 vs 4/5.
+| Cases | Baseline pass rate | Improved pass rate |
+|---|---|---|
+| Evidence includes the re-extracted workbook (6) | 33% (10/30) | 87% (26/30) |
+| Identical evidence in both pipelines (10) | 38% (19/50) | 34% (17/50) |
 
 **What improved:**
-- **C04 and C09 went from 0/5 to 5/5, and C08 from 0/5 to 4/5.** C04 is the workbook totals that disagree; C08 is
-  FY 2025-26 = 584,323 kWh, with 3 of 12 months covered; C09 is FY 2026-27 = 1,841,800 kWh, with 9 of 12 months
-  covered.
-- **Uncertainty went from 0.57 to 1.00 in the main run.** Workbook answers now say which months are missing and
-  flag the Q1 conflict (585,323 stated vs 584,323 summed).
-- **Evidence went from 0.78 to 0.99.** Workbook answers now cite the actual monthly cells.
+- **C04, C08 and C09 went from 0/5 to 5/5.** C04 is the workbook totals that disagree; C08 is FY 2025-26 = 584,323
+  kWh, with 3 of 12 months covered, plus the Q1 conflict (585,323 stated vs 584,323 summed); C09 is FY 2026-27 =
+  1,841,800 kWh, with 9 of 12 months covered.
+- **In the main run:** uncertainty went from 0.57 to 1.00, evidence from 0.75 to 0.91, and calculation from 0.71
+  to 1.00.
 
 **What regressed:**
-- Nothing the change touched got worse: C07 is 5/5 in both, and C10 is 4/5 vs 5/5.
-- In the main run, C02 went from pass to fail, but it has identical input in both pipelines and is 2/5 vs 2/5
-  across runs.
-- C11 is 2/5 vs 0/5 on identical input, also noise. It is one of the unstable cases listed below.
+- No case the change touched got worse: C07 and C10 are 5/5 in both.
+- C02 went from 5/5 to 3/5 with identical input, which is noise. The control group as a whole is flat
+  (38% vs 34%).
 
-**Fixed along the way, in both pipelines:** reading the live dashboard turned up three bugs in deterministic
-code. They were fixed with tests, the stored checks were recomputed offline, and all ten runs were re-answered,
-so both columns reflect the final code.
-- **The FY engine added up percentages, per-unit rates and capacities.** For example, it reported
-  66% + 65.2% + 63.7% = 194.9% and prorated a 250 kWp capacity. These are now excluded with a reason.
-- **Two arithmetic misreadings were reported as document errors:**
-  - a meter relation declared as present × previous × factor
-  - a bill's "round sum payable" amounts, which are rounded to ₹10
-  On the Adani bill those were 3 false failures; it now has none.
-- **The scorer did not match typographic dashes.**
-These fixes raised both pipelines alike.
+### Ablation: is it the design, or just a bigger output cap?
+
+The baseline's DeepSeek failure was partly caused by the 32k cap, so v1 was re-run with a 64k cap
+(`v1-64k*.json`):
+
+| Pipeline (5 runs each) | Mean passed | Mean overall | Workbook cases passed |
+|---|---|---|---|
+| Baseline: v1, 32k cap | 5.8/16 | 0.69 | 33% |
+| v1, 64k cap | 9.6/16 | 0.88 | 83% |
+| v2, 64k cap | 8.6/16 | 0.87 | 87% |
+
+On this dataset, **raising the cap recovers about as much of the score as v2 does**, and the two are within noise
+of each other. So the honest claim for v2 is not a higher score. It is that the extraction no longer depends on
+the model transcribing a whole table. Measured on the workbook with DeepSeek:
+
+| | v1 | v2 |
+|---|---|---|
+| Output tokens per call | 33k to 59k | 16k to 32k |
+| Time per call | 5 to 10 min | 2 to 5 min |
+| Monthly facts | 119, 211 or 223 in three runs; one run silently missed about half the rows | 204 to 209; every declared column is read in full from the cells |
+| Fit within a 32k cap? | No | Yes |
+| Larger tables | grow in step with the table | stay about the same |
+
+A bigger table than this one would push v1 past any cap, and an incomplete transcription is silent: the FY
+totals would simply be wrong. v2's facts per column come from code, so a column is either read completely or
+reported as a gap.
+
+**Fixed along the way, in both pipelines.** Each fix came with tests, and all runs were re-answered on the final
+code, so every column reflects the same code.
+- **FY engine:** it added up and prorated non-additive values (it reported 66% + 65.2% + 63.7% = 194.9% and
+  prorated a 250 kWp capacity). Rates, shares, ratios, capacities and statistics are now excluded from totals,
+  and lakh, crore and `cubic_meters` units are normalised.
+- **Arithmetic checks:** a meter relation declared as present × previous × factor is now checked as
+  (present − previous) × factor, and "round sum payable" amounts within ₹10 count as rounding. On the Adani bill
+  that removed 3 false failures.
+- **Answers:** the answer step now stays inside the requested financial year. Data from other years is mentioned
+  only as outside it.
+- **OpenRouter hosting:**
+  - One host (Baidu) returned corrupted text, such as `"savngs"`, missing quotes and missing commas, and another
+    ran past 60k tokens. Calls now prefer Parasail, then DeepInfra, and skip those two
+    (`OPENROUTER_PROVIDERS` / `OPENROUTER_IGNORE_PROVIDERS`).
+  - Small JSON syntax slips are repaired before strict schema validation.
+  - The output cap is 64k.
+- **Schema:** a null `quarter_basis` (for tables without quarters) no longer rejects a whole extraction.
+- **Scorer:** it now matches typographic dashes.
+
+A fresh end-to-end run on the final code exercised the whole processing path:
+- 6 documents plus a duplicate and a corrupt file uploaded together
+- the worker killed with `kill -9` mid-extraction, its jobs reclaimed after the lease expired, and the API and
+  worker restarted
+- the result: all 6 documents processed (the workbook with 323 cell-cited facts), the duplicate skipped, and the
+  corrupt file failed on its own
 
 **What remains:**
-- **C12 (absence answers do not say why)** is at 0/10. Asked about waste in FY 2023-24, the model correctly
-  says there is none, but it never mentions that the only waste record is from March 2023 (FY 2022-23), even
-  though the FY report lists it under "documents with data only in other financial years".
-- **Status calibration.** C16 is at 0/10 and C01 at 2/10: the answers are complete and cited but labelled
-  `partial`. C11 flips between `answered`, `partial` and `conflicting`.
-- **C15 (meter check)** is at 0/10.
-  - Nine of the ten answers contain the correct, re-checked calculation (4,132.27 − 3,539.68) × 80 = 47,407.2.
-  - In eight of those, the readings appear only in the calculation, not in the prose or key values the scorer
-    reads. That part is the scorer being strict, and it was deliberately not loosened after seeing the results.
-  - The rest is real: four answers were labelled `partial`, and one baseline answer said `not_found`.
-- **Answer stability.** Single-document cases flip between runs. A prompt change aimed at status and absence
-  explanations, plus pinning one OpenRouter provider, would be the next experiment, measured the same way.
+- **C12 (absence answers do not say why)** is at 1/10. Asked about waste in FY 2023-24, the model correctly
+  says there is none but rarely mentions that the only waste record is from March 2023 (FY 2022-23).
+- **Status calibration.** C01, C06 and C16 are complete, cited answers labelled `partial` (0/10 each). C11 flips
+  between statuses.
+- **Absence citations (C05).** The model cites the right policy page for "no deadline is specified", but its quote
+  does not match the page text, so the citation is unverified.
+- **C03 and C15.** The answers are right, but the prose leaves out details the case requires: the waste types in
+  C03, and in C15 the meter readings, which appear only in the verified calculation. This is partly the scorer
+  being strict, and it was deliberately not loosened after seeing the results.
+- **Next experiment:** a prompt change aimed at status labels and absence explanations, measured the same way
+  against the control group.
 
 ```bash
 make eval-baseline && make eval-improved   # main runs
 make eval-repeats                          # answer step 4 more times on each pipeline's documents
+make eval-ablation                         # v1 re-extracted with the 64k cap, 5 answer runs
 make compare                               # comparison.md
 cd backend && uv run python -m evals.rescore   # re-score saved runs after a scorer change (no model calls)
 ```
@@ -286,6 +319,8 @@ extracting anything again.
   required values and phrases, so a correct answer worded unusually can lose points. Repeat runs make the noise
   visible, but five runs is still a small sample per case.
 - **No authentication or multi-tenancy.** Every uploaded document is visible to every user of the instance.
+- **Model hosting varies.** Output quality depends on which OpenRouter host serves a call; the defaults pin
+  hosts that were measured to work, but hosts change.
 - **Free-tier Gemini keys** allow about 20 requests a day. A full eval (about 40 calls) then takes several days;
   the runner resumes where it stopped.
 

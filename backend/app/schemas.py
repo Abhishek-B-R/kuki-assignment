@@ -162,8 +162,10 @@ class SheetSeries(BaseModel):
     dimension: str = Field(description="total, grid, solar, wind, renewable, ...")
     unit: str | None
     year: int = Field(description="Calendar year of the first data row's period")
-    quarter_basis: Literal["calendar", "indian_fy"] = Field(
-        description="How to read labels like 'Q1': calendar quarters (Q1 = Jan-Mar) or Indian FY quarters (Q1 = Apr-Jun)"
+    quarter_basis: Literal["calendar", "indian_fy"] | None = Field(
+        default=None,
+        description="How to read labels like 'Q1': calendar quarters (Q1 = Jan-Mar) or Indian FY quarters (Q1 = Apr-Jun);"
+        " null when the labels are not quarters (read as calendar)",
     )
     year_note: str | None = Field(description="Where the year comes from, e.g. 'sheet title says 2026'")
 

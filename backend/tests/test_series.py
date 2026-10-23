@@ -91,3 +91,12 @@ def test_v2_series_fix_fy_totals_and_expose_quarterly_conflict():
     assert (cc["stated"], cc["sum_of_parts"], cc["status"]) == (585323, 584323, "fail")
     (g,) = fy_report(facts, FinancialYear(2026))["groups"]
     assert g["total"] == 1841800 and g["coverage"]["months_missing"] == ["2027-01", "2027-02", "2027-03"]
+
+
+def test_null_quarter_basis_is_accepted_and_read_as_calendar():
+    # Models send null for columns whose labels are months; that must not reject the whole extraction.
+    raw = series("Total Consumption (kWh)", "F").model_dump() | {"quarter_basis": None}
+    s = SheetSeries.model_validate(raw)
+    facts, problems = expand_series([s], CELLS)
+    assert problems == [] and len(facts) == 12 and facts[0].period_start == "2026-01-01"
+    assert parse_period("Q1", 2026, s.quarter_basis or "calendar") == (date(2026, 1, 1), date(2026, 3, 31))

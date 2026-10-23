@@ -3,7 +3,7 @@ SHELL := /bin/bash
 PY := cd backend && uv run
 PKG := npm
 
-.PHONY: help setup api worker dev test eval-baseline eval-improved eval-repeats compare build clean
+.PHONY: help setup api worker dev test eval-baseline eval-improved eval-repeats eval-ablation compare build clean
 
 help:
 	@echo "setup          install backend + dashboard dependencies"
@@ -13,6 +13,7 @@ help:
 	@echo "eval-baseline  ingest dataset/ with extraction v1 and run the eval suite"
 	@echo "eval-improved  rerun the same cases with extraction v2 (re-extracts the workbook)"
 	@echo "eval-repeats   rerun the answer step 4 more times on each pipeline's documents (noise check)"
+	@echo "eval-ablation  v1 with the 64k output cap (re-extracts the workbook), plus 4 answer repeats"
 	@echo "compare        write backend/evals/results/comparison.md"
 	@echo "build          build the dashboard so the API serves it at :8000"
 
@@ -47,6 +48,11 @@ eval-repeats:
 	  uv run python -m evals.run --name baseline-r$$r --version v1 --reuse-db baseline && \
 	  uv run python -m evals.run --name improved-r$$r --version v2 --reuse-db improved || exit 1; \
 	done
+
+eval-ablation:
+	cd backend && uv run python -m evals.run --name v1-64k --version v1 --reuse-db baseline \
+	  --reextract "Annual Electricity Consumption.xlsx" && \
+	for r in 2 3 4 5; do uv run python -m evals.run --name v1-64k-r$$r --version v1 --reuse-db v1-64k || exit 1; done
 
 compare:
 	$(PY) python -m evals.compare

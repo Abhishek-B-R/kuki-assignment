@@ -77,6 +77,8 @@ def test_fy_question_gets_computed_report_in_evidence(settings):
         out = client.post("/api/ask", json={"question": "Total electricity in FY 2024-25?"}).json()
         assert out["financial_year"] == "FY 2024-25"
         assert "Financial-year report computed by our software for FY 2024-25" in captured["prompt"]
+        assert "Financial year: FY 2024-25 (2024-04-01 to 2025-03-31)" in captured["prompt"]
+        assert "answer for that year only" in captured["system"]
         assert out["fy_report"]["groups"][0]["total"] == 63000
         # explicit FY overrides the question text
         out = client.post("/api/ask", json={"question": "Total electricity?", "financial_year": "FY2025-26"}).json()

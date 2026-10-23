@@ -35,7 +35,7 @@ def test_request_shape_and_parse():
         seen["body"] = json.loads(req.content)
         return ok('```json\n{"title": "x", "n": 2}\n```')
 
-    out = call(client(handler, reasoning="low"))
+    out = call(client(handler, reasoning="low", providers=["Parasail", "DeepInfra"], ignore=["Baidu"]))
     assert out == Out(title="x", n=2)
     body = seen["body"]
     assert seen["auth"] == "Bearer k"
@@ -45,7 +45,7 @@ def test_request_shape_and_parse():
     assert "page text" in user and "%PDF" not in user  # PDF bytes are never sent to a text model
     schema = body["response_format"]["json_schema"]["schema"]
     assert set(schema["properties"]) == {"title", "n"}  # field named "title" survives
-    assert body["provider"] == {"require_parameters": True}
+    assert body["provider"] == {"require_parameters": True, "order": ["Parasail", "DeepInfra"], "ignore": ["Baidu"]}
     assert body["reasoning"] == {"effort": "low"}
 
 
@@ -84,3 +84,12 @@ def test_network_error_is_transient():
 def test_missing_key():
     with pytest.raises(PermanentLLMError):
         OpenRouterLLM("", "m", 5)
+
+
+def test_syntax_slips_are_repaired_but_schema_is_still_enforced():
+    llm = client(lambda _req: ok('{"title": "x",\n "n": 2\n "extra": 1}'))  # missing comma
+    assert call(llm) == Out(title="x", n=2)
+    llm = client(lambda _req: ok('{"title": "x",\n n": 2}'))  # missing opening quote
+    assert call(llm) == Out(title="x", n=2)
+    with pytest.raises(TransientLLMError):
+        call(client(lambda _req: ok('{"title": "x", "n": "not a number"}')))

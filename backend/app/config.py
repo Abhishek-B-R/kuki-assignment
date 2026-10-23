@@ -16,6 +16,10 @@ def _int(name: str, default: int) -> int:
     return int(os.environ.get(name, default))
 
 
+def _list(name: str, default: str) -> tuple[str, ...]:
+    return tuple(x.strip() for x in os.environ.get(name, default).split(",") if x.strip())
+
+
 def _float(name: str, default: float) -> float:
     return float(os.environ.get(name, default))
 
@@ -36,6 +40,13 @@ class Settings:
     # Reasoning effort (low/medium/high); "" leaves the model default.
     openrouter_reasoning: str = field(default_factory=lambda: os.environ.get("OPENROUTER_REASONING", ""))
     openrouter_rpm: float = field(default_factory=lambda: _float("OPENROUTER_RPM", 0))
+    # Output cap per call, reasoning included. The workbook extraction alone uses about 30k tokens.
+    # Hosts to try first, and hosts to skip. Measured on the workbook (2026-10-23): Parasail and DeepInfra
+    # returned valid output; Baidu returned corrupted text (misspelled enum values, broken JSON) and
+    # StreamLake ran past 60k tokens.
+    openrouter_providers: tuple[str, ...] = field(default_factory=lambda: _list("OPENROUTER_PROVIDERS", "Parasail,DeepInfra"))
+    openrouter_ignore: tuple[str, ...] = field(default_factory=lambda: _list("OPENROUTER_IGNORE_PROVIDERS", "Baidu,StreamLake"))
+    openrouter_max_tokens: int = field(default_factory=lambda: _int("OPENROUTER_MAX_TOKENS", 64000))
     llm_timeout_s: float = field(default_factory=lambda: _float("LLM_TIMEOUT_S", 300))
     # Extraction pipeline: "v1" baseline, "v2" improved (spreadsheet series read by code).
     extract_version: str = field(default_factory=lambda: os.environ.get("EXTRACT_VERSION", "v2"))

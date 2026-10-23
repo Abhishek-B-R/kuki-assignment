@@ -16,6 +16,7 @@ def make_llm(settings: Settings) -> LLM:
 
         return OpenRouterLLM(
             settings.openrouter_api_key, settings.openrouter_model, settings.llm_timeout_s,
-            settings.openrouter_reasoning or None, settings.openrouter_rpm,
+            settings.openrouter_reasoning or None, settings.openrouter_rpm, settings.openrouter_max_tokens,
+            list(settings.openrouter_providers), list(settings.openrouter_ignore),
         )
     raise PermanentLLMError(f"Unknown LLM_PROVIDER {settings.llm_provider!r}")

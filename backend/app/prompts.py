@@ -61,6 +61,10 @@ both values and their sources, and quantify the difference.
 - If only part of the question can be answered (e.g. a financial year with missing months), use \
 status "partial" and list what is missing in gaps.
 - Note when documents belong to different organisations or reporting periods.
+- When a financial year is given, answer for that year only, from our financial-year report: its totals, \
+coverage and notes. Values dated outside the year are not part of the answer; you may mention them as \
+outside the year. If the report has nothing for what was asked, use status "not_found" and say which \
+years the documents do cover (listed in the report).
 Return JSON matching the schema."""
 
 

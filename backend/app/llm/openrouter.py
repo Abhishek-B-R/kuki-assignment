@@ -10,6 +10,7 @@ import re
 from typing import Any
 
 import httpx
+import json_repair
 from pydantic import ValidationError
 
 from .base import Blob, Part, PermanentLLMError, T, TransientLLMError
@@ -42,7 +43,9 @@ class OpenRouterLLM:
         timeout_s: float,
         reasoning: str | None = None,
         rpm: float = 0,
-        max_tokens: int = 32000,
+        max_tokens: int = 64000,
+        providers: list[str] | None = None,
+        ignore: list[str] | None = None,
         transport: httpx.BaseTransport | None = None,
     ):
         if not api_key:
@@ -51,6 +54,8 @@ class OpenRouterLLM:
         self.model = model
         self.reasoning = reasoning
         self.max_tokens = max_tokens
+        self.providers = providers or []
+        self.ignore = ignore or []
         self.limiter = RateLimiter(rpm)
         self.client = httpx.Client(
             timeout=timeout_s,
@@ -69,8 +74,12 @@ class OpenRouterLLM:
                 "type": "json_schema",
                 "json_schema": {"name": purpose, "strict": False, "schema": json_schema_for(schema)},
             },
-            # Only route to providers that honour response_format.
-            "provider": {"require_parameters": True},
+            # Only route to providers that honour response_format; prefer the configured hosts, in order.
+            "provider": {
+                "require_parameters": True,
+                **({"order": self.providers} if self.providers else {}),
+                **({"ignore": self.ignore} if self.ignore else {}),
+            },
         }
         if self.reasoning:
             body["reasoning"] = {"effort": self.reasoning}
@@ -108,9 +117,19 @@ class OpenRouterLLM:
             raise TransientLLMError(f"OpenRouter returned no content for {purpose} (finish_reason={finish})")
         if finish == "length":
             raise TransientLLMError(f"OpenRouter {purpose} output was cut off at max_tokens")
+        text = _strip_fences(text)
         try:
-            return schema.model_validate_json(_strip_fences(text))
+            return schema.model_validate_json(text)
         except ValidationError as exc:
+            first = exc
+        # Some hosts do not enforce the JSON grammar, and a long answer can contain a slip such as a missing
+        # comma or quote. Repair the syntax only; the result is validated against the same schema, and every
+        # fact is still checked against its source page or cell afterwards.
+        try:
+            out = schema.model_validate(json_repair.loads(text))
+            log.warning("Repaired malformed %s JSON from OpenRouter (%s)", purpose, str(first).splitlines()[0])
+            return out
+        except (ValidationError, ValueError, TypeError) as exc:
             log.warning("Invalid %s JSON from OpenRouter: %s", purpose, exc)
             raise TransientLLMError(f"OpenRouter returned JSON that does not match the {purpose} schema") from exc
 

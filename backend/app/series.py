@@ -86,14 +86,14 @@ def expand_series(series: list[SheetSeries], cells: list[Cell]) -> tuple[list[Ex
             value = index.get((s.sheet, row, vcol))
             if label is None or value is None or value.number is None:
                 continue
-            period = parse_period(label.value, year, s.quarter_basis)
+            period = parse_period(label.value, year, s.quarter_basis or "calendar")
             if period is None:
                 notes.append(f"Series '{s.header}': could not read a period from {s.sheet}!{label.ref} ({label.value!r})")
                 continue
             # A label sequence that wraps (Dec -> Jan) moves into the next year.
             if prev_month is not None and period[0].month < prev_month and period[0].year == year:
                 year += 1
-                period = parse_period(label.value, year, s.quarter_basis) or period
+                period = parse_period(label.value, year, s.quarter_basis or "calendar") or period
             prev_month = period[0].month
             note = f"period from {s.sheet}!{label.ref} '{label.value}'"
             if s.year_note:

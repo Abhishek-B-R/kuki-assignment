@@ -2,7 +2,7 @@
   "name": "baseline-r3",
   "version": "v1",
   "model": "openrouter:deepseek/deepseek-v4-flash",
-  "ran_at": "2026-10-23T09:29:48+00:00",
+  "ran_at": "2026-10-23T13:57:24+00:00",
   "reused_extraction_from": "baseline",
   "reextracted": [],
   "extraction": [
@@ -82,12 +82,12 @@
   "summary": {
     "cases": 16,
     "passed": 6,
-    "overall": 0.676,
-    "answer": 0.6444,
-    "status": 0.5,
-    "evidence": 0.8141,
-    "uncertainty": 0.7143,
-    "calculation": 0.5
+    "overall": 0.6878,
+    "answer": 0.6889,
+    "status": 0.5625,
+    "evidence": 0.7409,
+    "uncertainty": 0.5714,
+    "calculation": 0.75
   },
   "cases": [
     {
@@ -109,44 +109,46 @@
         ],
         "not_ready": [],
         "status": "partial",
-        "answer": "Each bill reports total electricity consumption for its billing period. The Adani Electricity Mumbai Limited bill (D1) reports 47,407 kWh for the period 2024-04-01 to 2024-04-30. The BESCOM bill (D2) reports 63,000 kWh for the period 2024-06-01 to 2024-07-01.",
+        "answer": "Each bill reports total electricity consumption for its billing period. However, the BESCOM bill has an anomaly: peak energy charges are prorated for 29 of 30 days, but the consumption figure itself is for the full 30-day period.",
         "key_values": [
           {
-            "label": "Adani Electricity Mumbai Limited - Total Electricity Consumption",
-            "value": "47407",
+            "label": "Adani Electricity Mumbai Limited bill – total consumption",
+            "value": "47,407 kWh",
             "unit": "kWh",
             "origin": "reported",
             "citation_indexes": [
-              0,
-              1
+              1,
+              80
             ]
           },
           {
-            "label": "Adani Electricity Mumbai Limited - Billing Period",
+            "label": "Adani Electricity Mumbai Limited bill – billing period",
             "value": "2024-04-01 to 2024-04-30",
             "unit": "date",
             "origin": "reported",
             "citation_indexes": [
-              1
+              83,
+              84
             ]
           },
           {
-            "label": "BESCOM - Total Electricity Consumption",
-            "value": "63000",
+            "label": "BESCOM bill – total consumption",
+            "value": "63,000 kWh",
             "unit": "kWh",
             "origin": "reported",
             "citation_indexes": [
-              2,
-              3
+              139,
+              142
             ]
           },
           {
-            "label": "BESCOM - Billing Period",
+            "label": "BESCOM bill – billing period",
             "value": "2024-06-01 to 2024-07-01",
             "unit": "date",
             "origin": "reported",
             "citation_indexes": [
-              3
+              116,
+              117
             ]
           }
         ],
@@ -195,6 +197,31 @@
             "page": 1,
             "sheet": null,
             "cell_range": null,
+            "quote": "Units Consumed 47407",
+            "fact_id": "1841c4cc612643988dc771bdbe627dc1",
+            "verification": "verified",
+            "note": null,
+            "bbox": [
+              [
+                0.5441253662109375,
+                0.20652203461095664,
+                0.6242874348958334,
+                0.2158861752957274
+              ],
+              [
+                0.5441253662109375,
+                0.22134057456266185,
+                0.582373779296875,
+                0.2333058646394259
+              ]
+            ]
+          },
+          {
+            "document_id": "dc37d7206e03492cb47a6842c789479f",
+            "filename": "Adani commercial electricity bill.pdf",
+            "page": 1,
+            "sheet": null,
+            "cell_range": null,
             "quote": "Bill Period: 01-04-2024 - 30.04.2024",
             "fact_id": "bbe94eccad114631a3e3bacee2d529c9",
             "verification": "verified",
@@ -204,6 +231,25 @@
                 0.38980131022135417,
                 0.2377406549543535,
                 0.430150390625,
+                0.244503646247131
+              ]
+            ]
+          },
+          {
+            "document_id": "dc37d7206e03492cb47a6842c789479f",
+            "filename": "Adani commercial electricity bill.pdf",
+            "page": 1,
+            "sheet": null,
+            "cell_range": null,
+            "quote": "Bill Period: 01-04-2024 - 30.04.2024",
+            "fact_id": "cdd2c4ce3a624e09958860791c03673e",
+            "verification": "verified",
+            "note": null,
+            "bbox": [
+              [
+                0.435580078125,
+                0.2377406549543535,
+                0.4744936930338542,
                 0.244503646247131
               ]
             ]
@@ -251,6 +297,31 @@
             "page": 1,
             "sheet": null,
             "cell_range": null,
+            "quote": "Net Consumption 63000",
+            "fact_id": "be3793ae32a146199454b6def148c1a5",
+            "verification": "verified",
+            "note": null,
+            "bbox": [
+              [
+                0.07982278951009114,
+                0.4461949478170899,
+                0.1406288553873698,
+                0.45308271104864956
+              ],
+              [
+                0.2506103108723958,
+                0.4461949478170899,
+                0.2723711140950521,
+                0.45308271104864956
+              ]
+            ]
+          },
+          {
+            "document_id": "9614930c58d449728eeff5edc9efc4be",
+            "filename": "BESCOM Commercial Electricity Bill.pdf",
+            "page": 1,
+            "sheet": null,
+            "cell_range": null,
             "quote": "01-06-2024 - 01-07-2024",
             "fact_id": "1deba120193b4967832fa585b3073889",
             "verification": "verified",
@@ -263,21 +334,42 @@
                 0.1604814388165978
               ]
             ]
+          },
+          {
+            "document_id": "9614930c58d449728eeff5edc9efc4be",
+            "filename": "BESCOM Commercial Electricity Bill.pdf",
+            "page": 1,
+            "sheet": null,
+            "cell_range": null,
+            "quote": "01-06-2024 - 01-07-2024",
+            "fact_id": "9d48b08561ee4723b1b7cfdb88939edd",
+            "verification": "verified",
+            "note": null,
+            "bbox": [
+              [
+                0.44567724609375,
+                0.14957582941382452,
+                0.5851117350260416,
+                0.1604814388165978
+              ]
+            ]
           }
         ],
-        "gaps": [],
+        "gaps": [
+          "The BESCOM bill states that peak energy charges are prorated for 29 of 30 days, but the total consumption of 63,000 kWh is for the full 30-day billing period. The reason for proration is not explained."
+        ],
         "inconsistencies": [],
         "assumptions": [],
         "support": {
-          "citations": 4,
-          "verified": 4,
+          "citations": 8,
+          "verified": 8,
           "partial": 0,
           "unverified": 0,
           "calculations_ok": 0,
           "calculations": 0
         },
         "fy_report": null,
-        "elapsed_s": 25.48
+        "elapsed_s": 14.96
       },
       "score": {
         "scores": {
@@ -296,8 +388,8 @@
           "evidence": {
             "sources_hit": 2,
             "sources": 2,
-            "citations": 4,
-            "supported": 4
+            "citations": 8,
+            "supported": 8
           },
           "sources_missed": [],
           "flags_missing": [],
@@ -324,8 +416,8 @@
         "key_values": [
           {
             "label": "Previous Reading (01-12-2025)",
-            "value": "12,500",
-            "unit": "cubic meters",
+            "value": "12,500 Cubic Meters",
+            "unit": "cubic_meters",
             "origin": "reported",
             "citation_indexes": [
               0
@@ -333,8 +425,8 @@
           },
           {
             "label": "Current Reading (31-12-2025)",
-            "value": "14,821",
-            "unit": "cubic meters",
+            "value": "14,821 Cubic Meters",
+            "unit": "cubic_meters",
             "origin": "reported",
             "citation_indexes": [
               1
@@ -342,20 +434,29 @@
           },
           {
             "label": "Units Consumed (December 2025)",
-            "value": "2,321",
-            "unit": "cubic meters",
+            "value": "2,321 Cubic Meters",
+            "unit": "cubic_meters",
             "origin": "reported",
             "citation_indexes": [
               2
+            ]
+          },
+          {
+            "label": "Calculated consumption (current - previous)",
+            "value": "2,321 Cubic Meters",
+            "unit": "cubic_meters",
+            "origin": "calculated",
+            "citation_indexes": [
+              3
             ]
           }
         ],
         "calculations": [
           {
-            "description": "Consumption = Current Reading - Previous Reading",
+            "description": "Units consumed equals current reading minus previous reading",
             "expression": "14,821 - 12,500 = 2,321",
             "result": 2321.0,
-            "unit": "cubic meters",
+            "unit": "cubic_meters",
             "recomputed": 2321.0,
             "ok": true
           }
@@ -435,31 +536,42 @@
                 0.6491087325895676
               ]
             ]
+          },
+          {
+            "document_id": "9144a5f1a46d44c98dd521a20cae73ed",
+            "filename": "water_bill_invoice.pdf",
+            "page": null,
+            "sheet": null,
+            "cell_range": null,
+            "quote": "arithmetic checks computed by our software: [pass] Units consumed equals current reading minus previous reading: (14,821 - 12,500) = 2,321; stated Units Consumed (December 2025) (2,321 Cubic Meters); difference 0",
+            "fact_id": null,
+            "verification": "unverified",
+            "note": "quote not found in the document text"
           }
         ],
         "gaps": [],
         "inconsistencies": [],
         "assumptions": [],
         "support": {
-          "citations": 3,
+          "citations": 4,
           "verified": 3,
           "partial": 0,
-          "unverified": 0,
+          "unverified": 1,
           "calculations_ok": 1,
           "calculations": 1
         },
         "fy_report": null,
-        "elapsed_s": 13.85
+        "elapsed_s": 13.11
       },
       "score": {
         "scores": {
           "answer": 1.0,
           "status": 1.0,
-          "evidence": 1.0,
+          "evidence": 0.925,
           "uncertainty": null,
           "calculation": 1.0
         },
-        "overall": 1.0,
+        "overall": 0.9812,
         "passed": true,
         "detail": {
           "missing": [],
@@ -468,7 +580,7 @@
           "evidence": {
             "sources_hit": 1,
             "sources": 1,
-            "citations": 3,
+            "citations": 4,
             "supported": 3
           },
           "sources_missed": [],
@@ -497,8 +609,8 @@
           }
         ],
         "not_ready": [],
-        "status": "answered",
-        "answer": "2.4 metric tons",
+        "status": "partial",
+        "answer": "The total waste quantity recorded in the document is 2.4 metric tons (calculated).",
         "key_values": [
           {
             "label": "Total waste quantity",
@@ -506,16 +618,13 @@
             "unit": "metric tons",
             "origin": "calculated",
             "citation_indexes": [
-              0,
-              1,
-              2,
-              3
+              -1
             ]
           }
         ],
         "calculations": [
           {
-            "description": "Sum of all four waste entries from Form-3",
+            "description": "Sum of four waste entries from Document D1",
             "expression": "1.0 + 0.5 + 0.5 + 0.4 = 2.4",
             "result": 2.4,
             "unit": "metric tons",
@@ -667,12 +776,14 @@
             ]
           }
         ],
-        "gaps": [],
+        "gaps": [
+          "The document only covers waste entries dated 10.03.2023; no other dates or periods are provided. The question does not specify a time frame, so the answer is limited to these four entries."
+        ],
         "inconsistencies": [
-          "The document date (08.03.2022) precedes all waste entry dates (10.03.2023), which is anomalous for a contemporaneous record, but does not affect the total quantity."
+          "The document date (08.03.2022) is before the waste entry dates (10.03.2023), which is an anomaly but does not affect the recorded quantities."
         ],
         "assumptions": [
-          "All waste quantities are in metric tons (T) as stated in the document."
+          "All quantities are in metric tons as indicated by 'T' in the document."
         ],
         "support": {
           "citations": 4,
@@ -683,7 +794,7 @@
           "calculations": 1
         },
         "fy_report": null,
-        "elapsed_s": 14.55
+        "elapsed_s": 9.59
       },
       "score": {
         "scores": {
@@ -705,7 +816,7 @@
             ]
           ],
           "violations": [],
-          "status": "answered",
+          "status": "partial",
           "evidence": {
             "sources_hit": 1,
             "sources": 1,
@@ -818,7 +929,7 @@
         ],
         "not_ready": [],
         "status": "not_found",
-        "answer": "No, the quality policy does not specify a deadline for resolving customer complaints.",
+        "answer": "The quality policy does not specify a deadline for resolving customer complaints.",
         "key_values": [],
         "calculations": [],
         "citations": [
@@ -828,226 +939,54 @@
             "page": 3,
             "sheet": null,
             "cell_range": null,
-            "quote": "We never compromise on food safety and compliance. We adhere to internationally recognized food safety management systems and comply with legal, regulatory, and internal requirements. Our commitment is unwavering: to deliver safe and nutritious products that strengthen trust in our brands and our company - every day, in every market.",
-            "fact_id": "6e4a9705aa3846218560095adc92f169",
-            "verification": "verified",
-            "note": null,
-            "bbox": [
-              [
-                0.23333310605288504,
-                0.22148705849396302,
-                0.5416751170562664,
-                0.23591322842324725
-              ],
-              [
-                0.23333310605288504,
-                0.23573743943354294,
-                0.5361751694503908,
-                0.25016360936282717
-              ],
-              [
-                0.23333310605288504,
-                0.24999434517323563,
-                0.5565371051907915,
-                0.26442051510251985
-              ],
-              [
-                0.23333310605288504,
-                0.2642447261128155,
-                0.5608025610986238,
-                0.27867089604209977
-              ],
-              [
-                0.23333310605288504,
-                0.27849510705239544,
-                0.5647740562341729,
-                0.2929212769816797
-              ],
-              [
-                0.23333310605288504,
-                0.29274548799197536,
-                0.5424672834066885,
-                0.307181426996984
-              ]
-            ]
-          },
-          {
-            "document_id": "b12585a46ed2465b923fc38f0826901c",
-            "filename": "quality_policy_nestle.pdf",
-            "page": 3,
-            "sheet": null,
-            "cell_range": null,
-            "quote": "Powered by Nestlé’s long history of expertise and robust science and technology capabilities, quality is the cornerstone of our ambition to achieve unrivaled product superiority. We take ownership, make deliberate choices, and aim to deliver the best consumer and customer experience, making sure that the quality we design is the quality we deliver.",
-            "fact_id": "84c105d4576841dfb74f84918c626ab5",
-            "verification": "verified",
-            "note": null,
-            "bbox": [
-              [
-                0.23333310605288504,
-                0.3782771352299622,
-                0.49381134136955984,
-                0.3927032870348017
-              ],
-              [
-                0.23333310605288504,
-                0.3925275161695421,
-                0.5579402629057186,
-                0.4069536679743816
-              ],
-              [
-                0.23333310605288504,
-                0.40677789710912204,
-                0.5244485236443097,
-                0.4212105374651848
-              ],
-              [
-                0.23333046584015876,
-                0.4210347665999252,
-                0.5284134566977429,
-                0.435464180804821
-              ],
-              [
-                0.23333241395828688,
-                0.4352884099395615,
-                0.5719166775522039,
-                0.4497178241444573
-              ],
-              [
-                0.23333228579262058,
-                0.4495420532791978,
-                0.5665333094364177,
-                0.4639714674840936
-              ]
-            ]
-          },
-          {
-            "document_id": "b12585a46ed2465b923fc38f0826901c",
-            "filename": "quality_policy_nestle.pdf",
-            "page": 3,
-            "sheet": null,
-            "cell_range": null,
-            "quote": "Quality is embedded across the entire value chain, from ideation to responsibly sourced ingredients, manufacturing, packaging, and delivery to the point of consumption. At every phase, we ensure excellence in execution.",
-            "fact_id": "d93d859a4ee141a9861204d501993a47",
-            "verification": "verified",
-            "note": null,
-            "bbox": [
-              [
-                0.23333310605288504,
-                0.5208102699773792,
-                0.5491945966995598,
-                0.5352364217822188
-              ],
-              [
-                0.23333310605288504,
-                0.5350671757170719,
-                0.5338019514401822,
-                0.5494933275219114
-              ],
-              [
-                0.23333310605288504,
-                0.5493208190567082,
-                0.5567642147515196,
-                0.5637469708615477
-              ],
-              [
-                0.23333310605288504,
-                0.5635744623963445,
-                0.5613460860563753,
-                0.578000614201184
-              ],
-              [
-                0.23333310605288504,
-                0.5778248433359244,
-                0.5320721763411922,
-                0.5922509951407638
-              ]
-            ]
-          },
-          {
-            "document_id": "b12585a46ed2465b923fc38f0826901c",
-            "filename": "quality_policy_nestle.pdf",
-            "page": 3,
-            "sheet": null,
-            "cell_range": null,
-            "quote": "Each of us plays a vital role in delivering our promise of food safety and quality in the products we make. We foster a culture where every individual is empowered and expected to act, speak up, drive continuous improvement - and is recognized for their contributions.",
-            "fact_id": "1cd77dfab3984a0494f26c48ebfc6719",
-            "verification": "verified",
-            "note": null,
-            "bbox": [
-              [
-                0.6095233036966464,
-                0.1502188417957816,
-                0.8994757716649704,
-                0.1646450117250658
-              ],
-              [
-                0.6095233036966464,
-                0.16447248513541787,
-                0.9009592123532837,
-                0.1788986550647021
-              ],
-              [
-                0.6095233036966464,
-                0.17872612847505417,
-                0.9131187505139443,
-                0.1931522984043384
-              ],
-              [
-                0.6095233036966464,
-                0.19297977181469045,
-                0.9098614970036918,
-                0.20740594174397467
-              ],
-              [
-                0.6095233036966464,
-                0.20723341515432675,
-                0.9173787721975244,
-                0.22165958508361097
-              ],
-              [
-                0.6095233036966464,
-                0.22148705849396302,
-                0.9087100566574271,
-                0.23591322842324725
-              ]
-            ]
+            "quote": "The policy text on page 3 lists four commitments: Food Safety and Compliance are Non‑Negotiable, Quality enables Unrivaled Product Superiority, Quality is End‑to‑End, and Food Safety and Quality are Everyone’s Responsibility. None of these commitments mention customer complaints or deadlines for resolving them.",
+            "fact_id": null,
+            "verification": "unverified",
+            "note": "quote not found in the document text"
           }
         ],
         "gaps": [],
         "inconsistencies": [],
         "assumptions": [],
         "support": {
-          "citations": 4,
-          "verified": 4,
+          "citations": 1,
+          "verified": 0,
           "partial": 0,
-          "unverified": 0,
+          "unverified": 1,
           "calculations_ok": 0,
           "calculations": 0
         },
         "fy_report": null,
-        "elapsed_s": 12.17
+        "elapsed_s": 3.5
       },
       "score": {
         "scores": {
           "answer": 1.0,
           "status": 1.0,
-          "evidence": 1.0,
+          "evidence": 0.0,
           "uncertainty": null,
           "calculation": null
         },
-        "overall": 1.0,
-        "passed": true,
+        "overall": 0.7143,
+        "passed": false,
         "detail": {
           "missing": [],
           "violations": [],
           "status": "not_found",
           "evidence": {
-            "sources_hit": 1,
+            "sources_hit": 0,
             "sources": 1,
-            "citations": 4,
-            "supported": 4
+            "citations": 1,
+            "supported": 0
           },
-          "sources_missed": [],
+          "sources_missed": [
+            {
+              "doc": "quality_policy_nestle.pdf",
+              "pages": [
+                3
+              ]
+            }
+          ],
           "flags_missing": [],
           "calculations": []
         }
@@ -1068,129 +1007,44 @@
         ],
         "not_ready": [],
         "status": "partial",
-        "answer": "Total amount payable on the Adani bill is INR 639,415.77 (reported, includes DPC after due date) or INR 626,420.00 if paid by discount date (discount of INR 5,089.97). The current month's bill amount is INR 632,023.17 (reported).\n\nThe difference between the total amount payable (after due date, with DPC) and the current month's bill amount is:\n639,415.77 - 632,023.17 = 7,392.60 INR (calculated). This difference arises because the total payable includes the net previous balance of INR 2.31 and the DPC of INR 7,900.29, while the current month's bill is just the sum of line items 1-12.\n\nThe current month's bill amount (INR 632,023.17) is the sum of charges for April 2024 consumption (line items 1-12). The total payable (INR 639,415.77) includes that amount plus the net previous balance (INR 2.31) and the DPC (INR 7,900.29) but assumes no other credits like the digital payment discount or adjustments, which are already netted in the current month charges. Actually, the total current month charges after net other credits is INR 631,513.17, then plus net previous balance INR 2.31 gives total bill amount INR 631,515.48, and with DPC becomes INR 639,415.77. So the difference from the current month bill amount (INR 632,023.17) to total payable (INR 639,415.77) is 7,392.60 INR.\n\nKey values:\n- Current month's bill amount (A, sum of 1-12): INR 632,023.17 (reported, fact F21, source p2).\n- Net other charges (B): INR 510 Cr = -510 INR (reported, fact F22).\n- Total current month charges (A+B): INR 631,513.17 (reported, fact F23).\n- Net previous balance (C): INR 2.31 (reported, fact F27).\n- Total bill amount (A+B+C): INR 631,515.48 (reported, fact F28).\n- DPC payable after due date: INR 7,900.29 (reported, fact F30).\n- Total bill amount with DPC: INR 639,415.77 (reported, fact F31).\n- Round sum payable by discount date: INR 626,420.00 (reported, fact F32).\n- Discount if paid by discount date: INR 5,089.97 (reported, fact F33).\n\nThe difference between total payable (with DPC) and current month bill amount: 639,415.77 - 632,023.17 = 7,392.60 INR (calculated).",
+        "answer": "The total amount payable on the Adani bill is INR 631,515.48 (reported, F28). The current month's bill amount is INR 632,023.17 (reported, F21). The difference is INR 507.69 (calculated: 632,023.17 - 631,515.48 = 507.69), with the total amount payable being less than the current month's bill amount. This difference arises because the total bill amount includes a net credit of INR 510.00 from other charges (F22) and a net previous balance of INR 2.31 (F27), which together reduce the amount payable relative to the current month's charges.",
         "key_values": [
           {
-            "label": "current month's bill amount (Sum of 1-12)",
-            "value": "632023.17",
-            "unit": "INR",
-            "origin": "reported",
-            "citation_indexes": [
-              0
-            ]
-          },
-          {
-            "label": "Net other charges (credit)",
-            "value": "510.00 (Cr)",
-            "unit": "INR",
-            "origin": "reported",
-            "citation_indexes": [
-              1
-            ]
-          },
-          {
-            "label": "Total current month charges (A+B)",
-            "value": "631513.17",
-            "unit": "INR",
-            "origin": "reported",
-            "citation_indexes": [
-              2
-            ]
-          },
-          {
-            "label": "Net previous balance",
-            "value": "2.31",
-            "unit": "INR",
-            "origin": "reported",
-            "citation_indexes": [
-              3
-            ]
-          },
-          {
-            "label": "Total bill amount (A+B+C)",
+            "label": "Total amount payable (Total Bill Amount A+B+C)",
             "value": "631515.48",
             "unit": "INR",
             "origin": "reported",
             "citation_indexes": [
-              4
+              28
             ]
           },
           {
-            "label": "DPC payable after due date",
-            "value": "7900.29",
+            "label": "Current month's bill amount (Sum of 1-12)",
+            "value": "632023.17",
             "unit": "INR",
             "origin": "reported",
             "citation_indexes": [
-              5
+              21
             ]
           },
           {
-            "label": "Total bill amount with DPC",
-            "value": "639415.77",
+            "label": "Difference (current month bill minus total amount payable)",
+            "value": "507.69",
             "unit": "INR",
-            "origin": "reported",
+            "origin": "calculated",
             "citation_indexes": [
-              6
-            ]
-          },
-          {
-            "label": "Round sum payable by discount date",
-            "value": "626420.00",
-            "unit": "INR",
-            "origin": "reported",
-            "citation_indexes": [
-              7
-            ]
-          },
-          {
-            "label": "Discount if paid by discount date",
-            "value": "5089.97",
-            "unit": "INR",
-            "origin": "reported",
-            "citation_indexes": [
-              8
+              21,
+              28
             ]
           }
         ],
         "calculations": [
           {
-            "description": "Difference between total payable (with DPC) and current month bill amount",
-            "expression": "639,415.77 - 632,023.17",
-            "result": 7392.6,
+            "description": "Difference = Current month's bill amount - Total amount payable",
+            "expression": "632023.17 - 631515.48 = 507.69",
+            "result": 507.69,
             "unit": "INR",
-            "recomputed": 7392.599999999977,
-            "ok": true
-          },
-          {
-            "description": "Total current month charges (A+B)",
-            "expression": "632,023.17 + (-510.00)",
-            "result": 631513.17,
-            "unit": "INR",
-            "recomputed": 631513.17,
-            "ok": true
-          },
-          {
-            "description": "Total bill amount (A+B+C)",
-            "expression": "631,513.17 + 2.31",
-            "result": 631515.48,
-            "unit": "INR",
-            "recomputed": 631515.4800000001,
-            "ok": true
-          },
-          {
-            "description": "Total bill amount with DPC",
-            "expression": "631,515.48 + 7,900.29",
-            "result": 639415.77,
-            "unit": "INR",
-            "recomputed": 639415.77,
-            "ok": true
-          },
-          {
-            "description": "Round sum payable by discount date (total bill amount minus discount)",
-            "expression": "631,515.48 - 5,089.97",
-            "result": 626425.51,
-            "unit": "INR",
-            "recomputed": 626425.51,
+            "recomputed": 507.69000000006054,
             "ok": true
           }
         ],
@@ -1200,11 +1054,11 @@
             "filename": "Adani commercial electricity bill.pdf",
             "page": 2,
             "sheet": null,
-            "cell_range": "page 2",
+            "cell_range": null,
             "quote": "(A) Current month's bill amount (Sum of 1-12) 632023.17",
             "fact_id": "e162c55b0cbb43a7b2d2b795f1583d1a",
-            "verification": "partial",
-            "note": "quote paraphrased; linked fact is verified",
+            "verification": "verified",
+            "note": null,
             "bbox": [
               [
                 0.04035485585530599,
@@ -1225,104 +1079,11 @@
             "filename": "Adani commercial electricity bill.pdf",
             "page": 2,
             "sheet": null,
-            "cell_range": "page 2",
-            "quote": "(B) Net other charges In current bill (Sum of a to e) 510.00Cr",
-            "fact_id": "c1155856164b4e9daefeef22448af1d6",
-            "verification": "partial",
-            "note": "quote paraphrased; linked fact is verified",
-            "bbox": [
-              [
-                0.04035485585530599,
-                0.3383699406338277,
-                0.3001144612630208,
-                0.3477340956865731
-              ],
-              [
-                0.48548124186197916,
-                0.3383699406338277,
-                0.5319283447265625,
-                0.3477340956865731
-              ]
-            ]
-          },
-          {
-            "document_id": "dc37d7206e03492cb47a6842c789479f",
-            "filename": "Adani commercial electricity bill.pdf",
-            "page": 2,
-            "sheet": null,
-            "cell_range": "page 2",
-            "quote": "Total current month charges (A+B) 631513.17",
-            "fact_id": "aa0edb8c1a234ddf865d952a0e64794b",
-            "verification": "partial",
-            "note": "quote paraphrased; linked fact is verified",
-            "bbox": [
-              [
-                0.04035485585530599,
-                0.3530892984566266,
-                0.2096070556640625,
-                0.3624534535093721
-              ],
-              [
-                0.4830006510416667,
-                0.3530892984566266,
-                0.5334441731770834,
-                0.3624534535093721
-              ]
-            ]
-          },
-          {
-            "document_id": "dc37d7206e03492cb47a6842c789479f",
-            "filename": "Adani commercial electricity bill.pdf",
-            "page": 2,
-            "sheet": null,
-            "cell_range": "page 2",
-            "quote": "(C) Net previous balance 2.31",
-            "fact_id": "38f279ece739499cb2c0e0876928189a",
-            "verification": "partial",
-            "note": "quote paraphrased; linked fact is verified",
-            "bbox": [
-              [
-                0.04035485585530599,
-                0.413062862532736,
-                0.05675541687011719,
-                0.4224270175854814
-              ],
-              [
-                0.05952756754557292,
-                0.413062862532736,
-                0.07747677612304688,
-                0.4224270175854814
-              ],
-              [
-                0.08047065734863282,
-                0.413062862532736,
-                0.1239414571126302,
-                0.4224270175854814
-              ],
-              [
-                0.12693694051106771,
-                0.413062862532736,
-                0.16552996826171876,
-                0.4224270175854814
-              ],
-              [
-                0.5289437662760417,
-                0.413062862532736,
-                0.5498972574869792,
-                0.4224270175854814
-              ]
-            ]
-          },
-          {
-            "document_id": "dc37d7206e03492cb47a6842c789479f",
-            "filename": "Adani commercial electricity bill.pdf",
-            "page": 2,
-            "sheet": null,
-            "cell_range": "page 2",
+            "cell_range": null,
             "quote": "Total Bill Amount (A+B+C) 631515.48",
             "fact_id": "f659db790d0d4473adee67eadfcc66ef",
-            "verification": "partial",
-            "note": "quote paraphrased; linked fact is verified",
+            "verification": "verified",
+            "note": null,
             "bbox": [
               [
                 0.04035485585530599,
@@ -1355,182 +1116,25 @@
                 0.4371464041442296
               ]
             ]
-          },
-          {
-            "document_id": "dc37d7206e03492cb47a6842c789479f",
-            "filename": "Adani commercial electricity bill.pdf",
-            "page": 2,
-            "sheet": null,
-            "cell_range": "page 2",
-            "quote": "DPC payable after due date 7900.29",
-            "fact_id": "04d905c33e30415398c0369569a7f152",
-            "verification": "partial",
-            "note": "quote paraphrased; linked fact is verified",
-            "bbox": [
-              [
-                0.04035485585530599,
-                0.4576907400357521,
-                0.06365088907877604,
-                0.4670548950884975
-              ],
-              [
-                0.06686891174316406,
-                0.4576907400357521,
-                0.10388210042317708,
-                0.4670548950884975
-              ],
-              [
-                0.10687385050455729,
-                0.4576907400357521,
-                0.1288072713216146,
-                0.4670548950884975
-              ],
-              [
-                0.1315794169108073,
-                0.4576907400357521,
-                0.14886903889973957,
-                0.4670548950884975
-              ],
-              [
-                0.15208250935872397,
-                0.4576907400357521,
-                0.17180769856770833,
-                0.4670548950884975
-              ],
-              [
-                0.4937580159505208,
-                0.4576907400357521,
-                0.5322281494140625,
-                0.4670548950884975
-              ]
-            ]
-          },
-          {
-            "document_id": "dc37d7206e03492cb47a6842c789479f",
-            "filename": "Adani commercial electricity bill.pdf",
-            "page": 2,
-            "sheet": null,
-            "cell_range": "page 2",
-            "quote": "(C) Total bill amount with DPC 639415.77",
-            "fact_id": "4a8603a0bc424597ba35245c6704c49a",
-            "verification": "partial",
-            "note": "quote paraphrased; linked fact is verified",
-            "bbox": [
-              [
-                0.04035485585530599,
-                0.4727232622336982,
-                0.20059714762369793,
-                0.4820874172864436
-              ],
-              [
-                0.495722412109375,
-                0.4727232622336982,
-                0.5463876953125,
-                0.4820874172864436
-              ]
-            ]
-          },
-          {
-            "document_id": "dc37d7206e03492cb47a6842c789479f",
-            "filename": "Adani commercial electricity bill.pdf",
-            "page": 1,
-            "sheet": null,
-            "cell_range": "page 1",
-            "quote": "Round sum payable by discount date 16-05-2024 : Amt r 626420.00 Discount r 5089.97",
-            "fact_id": "40d118ee9760430a8aaa640a12016bb6",
-            "verification": "partial",
-            "note": "quote paraphrased; linked fact is verified",
-            "bbox": [
-              [
-                0.3578721923828125,
-                0.269177797823976,
-                0.5094045817057292,
-                0.2771546674538018
-              ],
-              [
-                0.5348127034505208,
-                0.2699468292983463,
-                0.5368082682291667,
-                0.2761895993335099
-              ],
-              [
-                0.5374734700520833,
-                0.2693343800115496,
-                0.5850647379557292,
-                0.2773112496413754
-              ],
-              [
-                0.5966753743489583,
-                0.2699468292983463,
-                0.5988944498697917,
-                0.2761895993335099
-              ],
-              [
-                0.599557861328125,
-                0.269177797823976,
-                0.6202425944010417,
-                0.2771546674538018
-              ],
-              [
-                0.6202425944010417,
-                0.2699939275192002,
-                0.6273454996744792,
-                0.2768159568197534
-              ]
-            ]
-          },
-          {
-            "document_id": "dc37d7206e03492cb47a6842c789479f",
-            "filename": "Adani commercial electricity bill.pdf",
-            "page": 1,
-            "sheet": null,
-            "cell_range": "page 1",
-            "quote": "Discount r 5089.97",
-            "fact_id": "95856c753f714d06ac13ccb126b8f7fb",
-            "verification": "partial",
-            "note": "quote paraphrased; linked fact is verified",
-            "bbox": [
-              [
-                0.69113232421875,
-                0.269177797823976,
-                0.7279629720052083,
-                0.2771546674538018
-              ],
-              [
-                0.7279629720052083,
-                0.2699939275192002,
-                0.739319091796875,
-                0.2768159568197534
-              ],
-              [
-                0.739319091796875,
-                0.2683948581501589,
-                0.77527880859375,
-                0.2773112496413754
-              ]
-            ]
           }
         ],
         "gaps": [
-          "No gaps in answering the question. All required figures are present."
+          "The question does not specify whether 'total amount payable' refers to the amount due by the due date (including DPC) or the base total bill amount. The answer assumes the base total bill amount (A+B+C) as the amount payable to clear the bill without late payment charges. If the intended meaning is the amount due after the due date, the total amount payable would be INR 639,415.77 (F31) or the rounded sum INR 639,410.00 (F34), which would differ from the current month's bill amount by +7,392.60 or +7,386.83 respectively."
         ],
-        "inconsistencies": [
-          "None found. All arithmetic checks pass."
-        ],
+        "inconsistencies": [],
         "assumptions": [
-          "The question uses 'total amount payable' to mean the maximum amount the consumer must pay if they miss the discount date and pay after the due date, which includes the DPC. Alternative interpretation: 'total bill amount' without DPC. Both are provided.",
-          "The current month's bill amount is taken as the sum of line items 1-12 (INR 632,023.17) as explicitly stated on page 2."
+          "The 'total amount payable' is interpreted as the Total Bill Amount (A+B+C) of INR 631,515.48, which is the amount required to settle the bill without any late payment charges or discounts."
         ],
         "support": {
-          "citations": 9,
-          "verified": 0,
-          "partial": 9,
+          "citations": 2,
+          "verified": 2,
+          "partial": 0,
           "unverified": 0,
-          "calculations_ok": 5,
-          "calculations": 5
+          "calculations_ok": 1,
+          "calculations": 1
         },
         "fy_report": null,
-        "elapsed_s": 45.91
+        "elapsed_s": 15.07
       },
       "score": {
         "scores": {
@@ -1549,35 +1153,15 @@
           "evidence": {
             "sources_hit": 1,
             "sources": 1,
-            "citations": 9,
-            "supported": 9
+            "citations": 2,
+            "supported": 2
           },
           "sources_missed": [],
           "flags_missing": [],
           "calculations": [
             {
-              "expression": "639,415.77 - 632,023.17",
-              "result": 7392.6,
-              "ok": true
-            },
-            {
-              "expression": "632,023.17 + (-510.00)",
-              "result": 631513.17,
-              "ok": true
-            },
-            {
-              "expression": "631,513.17 + 2.31",
-              "result": 631515.48,
-              "ok": true
-            },
-            {
-              "expression": "631,515.48 + 7,900.29",
-              "result": 639415.77,
-              "ok": true
-            },
-            {
-              "expression": "631,515.48 - 5,089.97",
-              "result": 626425.51,
+              "expression": "632023.17 - 631515.48 = 507.69",
+              "result": 507.69,
               "ok": true
             }
           ]
@@ -1621,20 +1205,11 @@
           }
         ],
         "status": "partial",
-        "answer": "The total electricity consumption for FY 2024-25 from the provided documents is 110,407 kWh, but the data is highly incomplete: only 2 out of 12 months are covered, and the records come from two different organisations (Adani Electricity Mumbai Limited and BESCOM).",
+        "answer": "The total electricity consumption for FY 2024-25 from the available documents is 110,407 kWh (calculated), but the data covers only 2 of 12 months and comes from two different organisations, so it is highly incomplete.",
         "key_values": [
           {
-            "label": "Adani April 2024 consumption",
-            "value": "47407",
-            "unit": "kWh",
-            "origin": "reported",
-            "citation_indexes": [
-              0
-            ]
-          },
-          {
-            "label": "BESCOM June 2024 consumption",
-            "value": "63000",
+            "label": "Total electricity consumption (Adani Electricity Mumbai Limited, April 2024)",
+            "value": "47,407 kWh",
             "unit": "kWh",
             "origin": "reported",
             "citation_indexes": [
@@ -1642,16 +1217,37 @@
             ]
           },
           {
-            "label": "Total calculated consumption",
-            "value": "110407",
+            "label": "Total electricity consumption (BESCOM, June 2024)",
+            "value": "63,000 kWh",
+            "unit": "kWh",
+            "origin": "reported",
+            "citation_indexes": [
+              2
+            ]
+          },
+          {
+            "label": "Calculated total (sum of above)",
+            "value": "110,407 kWh",
             "unit": "kWh",
             "origin": "calculated",
-            "citation_indexes": []
+            "citation_indexes": [
+              1,
+              2
+            ]
+          },
+          {
+            "label": "Months covered",
+            "value": "2 of 12",
+            "unit": null,
+            "origin": "reported",
+            "citation_indexes": [
+              3
+            ]
           }
         ],
         "calculations": [
           {
-            "description": "Sum of Adani April 2024 consumption and BESCOM June 2024 consumption",
+            "description": "Sum of reported electricity consumption from Adani (April 2024) and BESCOM (June 2024)",
             "expression": "47,407 kWh + 63,000 kWh = 110,407 kWh",
             "result": 110407.0,
             "unit": "kWh",
@@ -1740,21 +1336,21 @@
             "page": null,
             "sheet": null,
             "cell_range": null,
-            "quote": "For Adani: months_covered: '1 of 12', months_missing: ['2024-05', '2024-06', ...]; For BESCOM: months_covered: '1 of 12', months_missing: ['2024-04', '2024-05', ...]",
+            "quote": "For Adani: months_covered: 1 of 12; For BESCOM: months_covered: 1 of 12",
             "fact_id": null,
             "verification": "unverified",
             "note": "unknown document"
           }
         ],
         "gaps": [
-          "Missing months: May, July, August, September, October, November, December 2024; January, February, March 2025 for Adani.",
-          "Missing months: April, May, July (partial), August, September, October, November, December 2024; January, February, March 2025 for BESCOM.",
-          "No data from any other organisations or months."
+          "Missing months: May, July, August, September, October, November, December 2024; January, February, March 2025.",
+          "Data from two different organisations (Adani Electricity Mumbai Limited and BESCOM) cannot be combined into a single entity total.",
+          "The BESCOM billing period (2024-06-01 to 2024-07-01) includes one day in July 2024, but the consumption is fully within FY 2024-25."
         ],
         "inconsistencies": [],
         "assumptions": [
-          "The two available electricity bills (Adani April 2024 and BESCOM June 2024) are the only sources for FY 2024-25 electricity consumption.",
-          "The consumption values are summed across organisations because the question asks for a single total, though the financial-year report keeps them separate."
+          "The question asks for total electricity consumption without specifying an organisation; the answer provides the sum of all available reported consumption from the documents.",
+          "The financial-year report's coverage indicators are used to assess completeness."
         ],
         "support": {
           "citations": 3,
@@ -8370,7 +7966,7 @@
             "A stated aggregate disagrees with the sum of its monthly records; monthly records were used."
           ]
         },
-        "elapsed_s": 36.59
+        "elapsed_s": 14.55
       },
       "score": {
         "scores": {
@@ -8441,44 +8037,32 @@
           }
         ],
         "status": "not_found",
-        "answer": "The documents do not contain any electricity consumption data for FY 2025-26.",
+        "answer": "No electricity consumption data for FY 2025-26 is present in the provided documents.",
         "key_values": [],
         "calculations": [],
         "citations": [
           {
             "document_id": "dc37d7206e03492cb47a6842c789479f",
             "filename": "Adani commercial electricity bill.pdf",
-            "page": 2,
+            "page": 1,
             "sheet": null,
             "cell_range": null,
-            "quote": "Consumption (kWh) 47407",
-            "fact_id": "ec3289e4e0bb44d48ce169dabea01477",
+            "quote": "Units Consumed 47407",
+            "fact_id": "1841c4cc612643988dc771bdbe627dc1",
             "verification": "verified",
             "note": null,
             "bbox": [
               [
-                0.17361456298828126,
-                0.6885602990561734,
-                0.21934291585286458,
-                0.6953233047169256
+                0.5441253662109375,
+                0.20652203461095664,
+                0.6242874348958334,
+                0.2158861752957274
               ],
               [
-                0.24550703938802082,
-                0.6885602990561734,
-                0.24766890462239582,
-                0.6953233047169256
-              ],
-              [
-                0.2215047810872396,
-                0.6885602990561734,
-                0.24363330078125,
-                0.6953233047169256
-              ],
-              [
-                0.40860331217447915,
-                0.6885602990561734,
-                0.4295567626953125,
-                0.6953233047169256
+                0.5441253662109375,
+                0.22134057456266185,
+                0.582373779296875,
+                0.2333058646394259
               ]
             ]
           },
@@ -8546,7 +8130,7 @@
           }
         ],
         "gaps": [
-          "No electricity consumption data for FY 2025-26 (2025-04-01 to 2026-03-31) is present in any of the provided documents. The only consumption data in that financial year is water consumption (2,321 m³) from the Hyderabad Water Supply Board bill (D5). The electricity bills (D1 and D2) cover periods in FY 2024-25, and the other documents (D3, D4) contain no electricity consumption data."
+          "The documents contain electricity consumption data only for periods outside FY 2025-26: Adani bill (April 2024, FY 2024-25), BESCOM bill (June-July 2024, FY 2024-25). The water bill (December 2025) is for water, not electricity. No electricity consumption data for FY 2025-26 is found."
         ],
         "inconsistencies": [],
         "assumptions": [],
@@ -10418,17 +10002,17 @@
             "Coverage is incomplete: at least one series is missing months in this financial year."
           ]
         },
-        "elapsed_s": 11.62
+        "elapsed_s": 6.02
       },
       "score": {
         "scores": {
           "answer": 0.0,
           "status": 0.0,
           "evidence": 0.3,
-          "uncertainty": 1.0,
+          "uncertainty": 0.0,
           "calculation": 0.0
         },
-        "overall": 0.26,
+        "overall": 0.06,
         "passed": false,
         "detail": {
           "missing": [
@@ -10451,7 +10035,25 @@
               "cells": "B3:F5"
             }
           ],
-          "flags_missing": [],
+          "flags_missing": [
+            [
+              "3 of 12",
+              "three months",
+              "3 months",
+              "only january",
+              "january to march",
+              "january-march",
+              "january–march",
+              "jan-mar",
+              "jan–mar",
+              "jan to mar",
+              "9 months",
+              "nine months",
+              "april 2025",
+              "apr 2025",
+              "2025-04"
+            ]
+          ],
           "calculations": []
         }
       }
@@ -10572,28 +10174,19 @@
           }
         ],
         "status": "partial",
-        "answer": "Based on the provided documents, the only water consumption data within FY 2025-26 is a partial record of 2,321 cubic meters for December 2025 from the Hyderabad Water Supply Board. This is only 1 of 12 months in the financial year, so the total water consumption for FY 2025-26 cannot be determined from the available evidence.",
+        "answer": "For FY 2025-26, only one month (December 2025) of water consumption data is available: 2,321 cubic meters (reported). The remaining 11 months (April–November 2025, January–March 2026) are missing, so a full-year total cannot be determined.",
         "key_values": [
           {
-            "label": "Water consumed in December 2025",
-            "value": "2321",
-            "unit": "m3",
+            "label": "Water consumption (December 2025)",
+            "value": "2,321",
+            "unit": "cubic meters",
             "origin": "reported",
             "citation_indexes": [
-              0
+              215
             ]
           }
         ],
-        "calculations": [
-          {
-            "description": "Water consumption in December 2025",
-            "expression": "2321 cubic meters (reported)",
-            "result": 2321.0,
-            "unit": "m3",
-            "recomputed": null,
-            "ok": false
-          }
-        ],
+        "calculations": [],
         "citations": [
           {
             "document_id": "9144a5f1a46d44c98dd521a20cae73ed",
@@ -10622,9 +10215,7 @@
           }
         ],
         "gaps": [
-          "FY 2025-26 water consumption data is missing for 11 months: April, May, June, July, August, September, October, November 2025, and January, February, March 2026.",
-          "The other documents (electricity bills, waste record, policy) contain no water consumption data.",
-          "The financial-year report confirms only 1 of 12 months is covered."
+          "Missing months: 2025-04, 2025-05, 2025-06, 2025-07, 2025-08, 2025-09, 2025-10, 2025-11, 2026-01, 2026-02, 2026-03"
         ],
         "inconsistencies": [],
         "assumptions": [],
@@ -10634,7 +10225,7 @@
           "partial": 0,
           "unverified": 0,
           "calculations_ok": 0,
-          "calculations": 1
+          "calculations": 0
         },
         "fy_report": {
           "financial_year": "FY 2025-26",
@@ -12496,7 +12087,7 @@
             "Coverage is incomplete: at least one series is missing months in this financial year."
           ]
         },
-        "elapsed_s": 11.02
+        "elapsed_s": 7.62
       },
       "score": {
         "scores": {
@@ -12504,9 +12095,9 @@
           "status": 1.0,
           "evidence": 1.0,
           "uncertainty": 1.0,
-          "calculation": 0.0
+          "calculation": null
         },
-        "overall": 0.9,
+        "overall": 1.0,
         "passed": true,
         "detail": {
           "missing": [],
@@ -12520,13 +12111,7 @@
           },
           "sources_missed": [],
           "flags_missing": [],
-          "calculations": [
-            {
-              "expression": "2321 cubic meters (reported)",
-              "result": 2321.0,
-              "ok": false
-            }
-          ]
+          "calculations": []
         }
       }
     },
@@ -12544,8 +12129,8 @@
           }
         ],
         "not_ready": [],
-        "status": "conflicting",
-        "answer": "Recorded maximum demand = 232 KVA; billing demand = 675 KVA. They differ because the billing demand is set to the higher of the recorded demand and 90% of the contract demand (675 KVA). Since the recorded demand (232 KVA) is lower than 90% of the contract demand (675 KVA), the billing demand is 675 KVA.",
+        "status": "partial",
+        "answer": "Recorded maximum demand = 232 KVA (reported). Billing demand = 675 KVA (reported). They differ because the billing demand is set to 90% of the contract demand (750 KVA) as a minimum chargeable demand, while the recorded demand is the actual maximum demand measured during the billing period.",
         "key_values": [
           {
             "label": "Recorded Demand",
@@ -12553,7 +12138,7 @@
             "unit": "KVA",
             "origin": "reported",
             "citation_indexes": [
-              0
+              12
             ]
           },
           {
@@ -12562,7 +12147,7 @@
             "unit": "KVA",
             "origin": "reported",
             "citation_indexes": [
-              1
+              13
             ]
           },
           {
@@ -12571,7 +12156,7 @@
             "unit": "KVA",
             "origin": "reported",
             "citation_indexes": [
-              2
+              10
             ]
           },
           {
@@ -12580,11 +12165,20 @@
             "unit": "KVA",
             "origin": "reported",
             "citation_indexes": [
-              3
+              11
             ]
           }
         ],
-        "calculations": [],
+        "calculations": [
+          {
+            "description": "90% of Contract Demand",
+            "expression": "750 * 0.9",
+            "result": 675.0,
+            "unit": "KVA",
+            "recomputed": 675.0,
+            "ok": true
+          }
+        ],
         "citations": [
           {
             "document_id": "9614930c58d449728eeff5edc9efc4be",
@@ -12689,17 +12283,19 @@
         ],
         "gaps": [],
         "inconsistencies": [],
-        "assumptions": [],
+        "assumptions": [
+          "The billing demand is set to 90% of contract demand as a minimum billing demand, which is standard practice for HT tariffs in BESCOM."
+        ],
         "support": {
           "citations": 4,
           "verified": 4,
           "partial": 0,
           "unverified": 0,
-          "calculations_ok": 0,
-          "calculations": 0
+          "calculations_ok": 1,
+          "calculations": 1
         },
         "fy_report": null,
-        "elapsed_s": 18.28
+        "elapsed_s": 9.12
       },
       "score": {
         "scores": {
@@ -12707,14 +12303,14 @@
           "status": 0.0,
           "evidence": 1.0,
           "uncertainty": 1.0,
-          "calculation": null
+          "calculation": 1.0
         },
-        "overall": 0.8333,
+        "overall": 0.85,
         "passed": false,
         "detail": {
           "missing": [],
           "violations": [],
-          "status": "conflicting",
+          "status": "partial",
           "evidence": {
             "sources_hit": 1,
             "sources": 1,
@@ -12723,7 +12319,13 @@
           },
           "sources_missed": [],
           "flags_missing": [],
-          "calculations": []
+          "calculations": [
+            {
+              "expression": "750 * 0.9",
+              "result": 675.0,
+              "ok": true
+            }
+          ]
         }
       }
     },
@@ -12764,7 +12366,7 @@
           }
         ],
         "status": "not_found",
-        "answer": "not_found",
+        "answer": "No hazardous waste data was found for FY 2023-24.",
         "key_values": [],
         "calculations": [],
         "citations": [
@@ -12788,129 +12390,6 @@
             ]
           },
           {
-            "document_id": "e2abb1d016b34bd3947afef5faa03693",
-            "filename": "form 3 filled.docx.pdf",
-            "page": 1,
-            "sheet": null,
-            "cell_range": null,
-            "quote": "10.03 .2023 21.1 – Waste Powder 0.5 T",
-            "fact_id": "c61e9651b5784bd0bc0fc48a72c5d43b",
-            "verification": "verified",
-            "note": null,
-            "bbox": [
-              [
-                0.15578860084482488,
-                0.4715376104141924,
-                0.20109061426764366,
-                0.48732034497476245
-              ],
-              [
-                0.20109061426764366,
-                0.47443946240350354,
-                0.20526175530964896,
-                0.48750359542013066
-              ],
-              [
-                0.15578860084482488,
-                0.48893523952456946,
-                0.20612417131462354,
-                0.5047179740851395
-              ],
-              [
-                0.20612417131462354,
-                0.49183709151388066,
-                0.21029531235662882,
-                0.5049012245305077
-              ],
-              [
-                0.2224832317173081,
-                0.4715376104141924,
-                0.39812684539180476,
-                0.48732034497476245
-              ],
-              [
-                0.39812684539180476,
-                0.47443946240350354,
-                0.4022979992348076,
-                0.48750359542013066
-              ]
-            ]
-          },
-          {
-            "document_id": "e2abb1d016b34bd3947afef5faa03693",
-            "filename": "form 3 filled.docx.pdf",
-            "page": 1,
-            "sheet": null,
-            "cell_range": null,
-            "quote": "10.03 .2023 12.5 – Phosphate Sludge 0.5 T",
-            "fact_id": "bc41f1df0425441bb4cbb0717963dd20",
-            "verification": "partial",
-            "note": null,
-            "bbox": [
-              [
-                0.42634224091600254,
-                0.4715376104141924,
-                0.4688455978495963,
-                0.48732034497476245
-              ],
-              [
-                0.42634224091600254,
-                0.5481409358298693,
-                0.4688455978495963,
-                0.5639236703904394
-              ]
-            ]
-          },
-          {
-            "document_id": "e2abb1d016b34bd3947afef5faa03693",
-            "filename": "form 3 filled.docx.pdf",
-            "page": 1,
-            "sheet": null,
-            "cell_range": null,
-            "quote": "10.03 .2023 5.2 – Wastes or residues containing oil 0.4 T",
-            "fact_id": "dbf80269394d4dd0a9a9a4203ffae14a",
-            "verification": "verified",
-            "note": null,
-            "bbox": [
-              [
-                0.15578860084482488,
-                0.6247442612455463,
-                0.20109061426764366,
-                0.6405269958061164
-              ],
-              [
-                0.20109061426764366,
-                0.6276461132348575,
-                0.20526175530964896,
-                0.6407102462514845
-              ],
-              [
-                0.15578860084482488,
-                0.6420825224307823,
-                0.20612417131462354,
-                0.6578652569913525
-              ],
-              [
-                0.20612417131462354,
-                0.6449843744200935,
-                0.21029531235662882,
-                0.6580485074367206
-              ],
-              [
-                0.2224832317173081,
-                0.6258530424213183,
-                0.2526845739991873,
-                0.6416357769818883
-              ],
-              [
-                0.27407719144885173,
-                0.6258530424213183,
-                0.28917786258979133,
-                0.6416357769818883
-              ]
-            ]
-          },
-          {
             "document_id": null,
             "filename": null,
             "page": null,
@@ -12924,13 +12403,11 @@
         ],
         "gaps": [],
         "inconsistencies": [],
-        "assumptions": [
-          "The question asks for hazardous waste recorded in FY 2023-24 (April 1, 2023 to March 31, 2024)."
-        ],
+        "assumptions": [],
         "support": {
-          "citations": 5,
-          "verified": 3,
-          "partial": 1,
+          "citations": 2,
+          "verified": 1,
+          "partial": 0,
           "unverified": 1,
           "calculations_ok": 0,
           "calculations": 0
@@ -13035,17 +12512,17 @@
           "organisations": [],
           "notes": []
         },
-        "elapsed_s": 14.26
+        "elapsed_s": 11.11
       },
       "score": {
         "scores": {
           "answer": 0.0,
           "status": 1.0,
-          "evidence": 0.94,
+          "evidence": 0.85,
           "uncertainty": null,
           "calculation": null
         },
-        "overall": 0.4829,
+        "overall": 0.4571,
         "passed": false,
         "detail": {
           "missing": [
@@ -13064,8 +12541,8 @@
           "evidence": {
             "sources_hit": 1,
             "sources": 1,
-            "citations": 5,
-            "supported": 4
+            "citations": 2,
+            "supported": 1
           },
           "sources_missed": [],
           "flags_missing": [],
@@ -13088,51 +12565,45 @@
         ],
         "not_ready": [],
         "status": "conflicting",
-        "answer": "The hazardous waste record has two issues: a date inconsistency and missing required sections.",
+        "answer": "Yes, there are inconsistencies and missing elements in the hazardous waste record.",
         "key_values": [
           {
             "label": "Document date",
             "value": "08.03.2022",
-            "unit": "date",
+            "unit": null,
             "origin": "reported",
             "citation_indexes": [
-              0
+              8
             ]
           },
           {
-            "label": "Waste entry 1 date",
+            "label": "Waste entry dates (all four entries)",
             "value": "10.03.2023",
-            "unit": "date",
+            "unit": null,
             "origin": "reported",
             "citation_indexes": [
-              1
+              4,
+              5,
+              6,
+              7
             ]
           },
           {
-            "label": "Waste entry 2 date",
-            "value": "10.03.2023",
-            "unit": "date",
+            "label": "Section 4 (Date wise description of management)",
+            "value": "blank (marked '------------')",
+            "unit": null,
             "origin": "reported",
             "citation_indexes": [
-              2
+              -1
             ]
           },
           {
-            "label": "Waste entry 3 date",
-            "value": "10.03.2023",
-            "unit": "date",
+            "label": "Section 5 (Date of environmental monitoring)",
+            "value": "blank (marked '------------')",
+            "unit": null,
             "origin": "reported",
             "citation_indexes": [
-              3
-            ]
-          },
-          {
-            "label": "Waste entry 4 date",
-            "value": "10.03.2023",
-            "unit": "date",
-            "origin": "reported",
-            "citation_indexes": [
-              4
+              -1
             ]
           }
         ],
@@ -13305,18 +12776,18 @@
             "page": 1,
             "sheet": null,
             "cell_range": null,
-            "quote": "4.  Date  wise  description  of  management  of        ------------\n     hazardous  waste  and  other  wastes  including\n     products sent and to whom in case of recyclers or\n     pre-processor or utilizer\n\n5.  Date  of  environmental  monitoring   (as  per       ----------\n     authorization or guidelines of CPCB)",
+            "quote": "4.  Date  wise  description  of  management  of        ------------\n     hazardous  waste  and  other  wastes  including\n     products sent and to whom in case of recyclers or\n     pre-processor or utilizer\n\n 5.  Date  of  environmental  monitoring   (as  per       ----------\n     authorization or guidelines of CPCB)",
             "fact_id": null,
             "verification": "verified",
             "note": null
           }
         ],
         "gaps": [
-          "Section 4 (Date wise description of management of hazardous waste and other wastes) is blank.",
-          "Section 5 (Date of environmental monitoring) is blank."
+          "Section 4 (Date wise description of management of hazardous waste and other wastes) is completely blank.",
+          "Section 5 (Date of environmental monitoring) is completely blank."
         ],
         "inconsistencies": [
-          "Document date (08.03.2022) is before all waste entry dates (10.03.2023), which is anomalous for a record maintained on the document date."
+          "The document date (08.03.2022) is before all four waste entry dates (10.03.2023). A record maintained on the document date should not list waste entries that occur over a year later. This is an anomaly noted in the extraction."
         ],
         "assumptions": [],
         "support": {
@@ -13328,7 +12799,7 @@
           "calculations": 0
         },
         "fy_report": null,
-        "elapsed_s": 37.08
+        "elapsed_s": 12.56
       },
       "score": {
         "scores": {
@@ -13371,80 +12842,48 @@
         ],
         "not_ready": [],
         "status": "answered",
-        "answer": "yes",
+        "answer": "Yes, the line items and tax add up to the total amount due.",
         "key_values": [
           {
-            "label": "Subtotal (reported)",
-            "value": "151174.88",
-            "unit": "INR",
-            "origin": "reported",
-            "citation_indexes": [
-              0
-            ]
-          },
-          {
-            "label": "GST (reported)",
-            "value": "7558.74",
-            "unit": "INR",
-            "origin": "reported",
-            "citation_indexes": [
-              1
-            ]
-          },
-          {
-            "label": "Total amount due (reported)",
-            "value": "158733.62",
-            "unit": "INR",
-            "origin": "reported",
-            "citation_indexes": [
-              2
-            ]
-          },
-          {
-            "label": "Sum of line items (calculated)",
-            "value": "151174.88",
+            "label": "Subtotal (sum of line items)",
+            "value": "₹151,174.88",
             "unit": "INR",
             "origin": "calculated",
             "citation_indexes": [
-              3,
-              4,
-              5,
-              6,
-              7,
-              8
+              -1
             ]
           },
           {
-            "label": "Subtotal equals sum of line items (check)",
-            "value": "pass",
-            "unit": "boolean",
+            "label": "GST (5%)",
+            "value": "₹7,558.74",
+            "unit": "INR",
             "origin": "reported",
             "citation_indexes": [
-              9
+              30
             ]
           },
           {
-            "label": "Total equals subtotal plus GST (check)",
-            "value": "pass",
-            "unit": "boolean",
+            "label": "Total amount due",
+            "value": "₹158,733.62",
+            "unit": "INR",
             "origin": "reported",
             "citation_indexes": [
-              10
+              31
             ]
           }
         ],
         "calculations": [
           {
-            "description": "Sum of all charge line amounts (Water Supply, Fixed Meter, Sewerage, Water Quality Surcharge, Environmental Cess, Processing Fee)",
-            "expression": "105,605.50 + 500.00 + 26,401.38 + 11,605.00 + 6,963.00 + 100.00",
+            "description": "Sum of all charge line amounts: Water Supply Charges (₹105,605.50) + Fixed Meter Charges (₹500.00) + Sewerage Charges (₹26,401.38) + Water Quality Surcharge (₹11,605.00) + Environmental Cess (₹6,963.00) + Processing Fee (₹100.00)",
+            "expression": "105605.50 + 500.00 + 26401.38 + 11605.00 + 6963.00 + 100.00",
             "result": 151174.88,
             "unit": "INR",
             "recomputed": 151174.88,
             "ok": true
           },
           {
-            "description": "Total amount due = subtotal + GST",
-            "expression": "151,174.88 + 7,558.74",
+            "description": "Total amount due = Subtotal + GST",
+            "expression": "151174.88 + 7558.74",
             "result": 158733.62,
             "unit": "INR",
             "recomputed": 158733.62,
@@ -13548,182 +12987,6 @@
           {
             "document_id": "9144a5f1a46d44c98dd521a20cae73ed",
             "filename": "water_bill_invoice.pdf",
-            "page": 1,
-            "sheet": null,
-            "cell_range": null,
-            "quote": "Water Supply Charges                      ₹45.50/Cu.M                        2,321                   105,605.50",
-            "fact_id": "f47a6d3842ce4716a15e284f2ecb3901",
-            "verification": "verified",
-            "note": null
-          },
-          {
-            "document_id": "9144a5f1a46d44c98dd521a20cae73ed",
-            "filename": "water_bill_invoice.pdf",
-            "page": 1,
-            "sheet": null,
-            "cell_range": null,
-            "quote": "Fixed Meter Charges                           ₹500.00                        1                      500.00",
-            "fact_id": "f23dd58fb054416489fb053688482355",
-            "verification": "verified",
-            "note": null,
-            "bbox": [
-              [
-                0.42319318983289933,
-                0.7883455681078362,
-                0.4306441662358303,
-                0.8010976772115688
-              ],
-              [
-                0.43064187243093854,
-                0.7896500404434975,
-                0.47494806027879904,
-                0.8011651857934817
-              ]
-            ]
-          },
-          {
-            "document_id": "9144a5f1a46d44c98dd521a20cae73ed",
-            "filename": "water_bill_invoice.pdf",
-            "page": 1,
-            "sheet": null,
-            "cell_range": null,
-            "quote": "Sewerage Charges (50%                    ₹22.75/Cu.M                        1,160.5                    26,401.38",
-            "fact_id": "44d00c3dea07475b95c791645cd531a1",
-            "verification": "verified",
-            "note": null
-          },
-          {
-            "document_id": "9144a5f1a46d44c98dd521a20cae73ed",
-            "filename": "water_bill_invoice.pdf",
-            "page": 1,
-            "sheet": null,
-            "cell_range": null,
-            "quote": "Water Quality Surcharge                     ₹5.00/Cu.M                        2,321                    11,605.00",
-            "fact_id": "0aa3b6e812484833a64b74f757d35958",
-            "verification": "verified",
-            "note": null,
-            "bbox": [
-              [
-                0.09136274749157476,
-                0.8711010711361663,
-                0.25344177944208285,
-                0.8826162164861505
-              ],
-              [
-                0.40068717408024407,
-                0.8697965988005051,
-                0.40813815048317503,
-                0.8825487079042377
-              ],
-              [
-                0.4081358566782833,
-                0.8711010711361663,
-                0.4815002640867545,
-                0.8826162164861505
-              ],
-              [
-                0.6484495674083436,
-                0.8711010711361663,
-                0.6910590876161663,
-                0.8826162164861505
-              ],
-              [
-                0.8277557472777523,
-                0.8711010711361663,
-                0.8916147269454657,
-                0.8826162164861505
-              ]
-            ]
-          },
-          {
-            "document_id": "9144a5f1a46d44c98dd521a20cae73ed",
-            "filename": "water_bill_invoice.pdf",
-            "page": 1,
-            "sheet": null,
-            "cell_range": null,
-            "quote": "Environmental Cess                         ₹3.00/Cu.M                        2,321                      6,963.00",
-            "fact_id": "e7667800021e4ff6aca367fb3dcd4f2f",
-            "verification": "verified",
-            "note": null,
-            "bbox": [
-              [
-                0.09136274749157476,
-                0.8988055604876894,
-                0.22438919466305401,
-                0.9103207058376737
-              ],
-              [
-                0.40068717408024407,
-                0.8975010881520281,
-                0.40813815048317503,
-                0.9102531972557607
-              ],
-              [
-                0.4081358566782833,
-                0.8988055604876894,
-                0.4815002640867545,
-                0.9103207058376737
-              ],
-              [
-                0.6484495674083436,
-                0.8988055604876894,
-                0.6910590876161663,
-                0.9103207058376737
-              ],
-              [
-                0.8372301089218239,
-                0.8988055604876894,
-                0.8928402171415442,
-                0.9103207058376737
-              ]
-            ]
-          },
-          {
-            "document_id": "9144a5f1a46d44c98dd521a20cae73ed",
-            "filename": "water_bill_invoice.pdf",
-            "page": 2,
-            "sheet": null,
-            "cell_range": null,
-            "quote": "Processing Fee                                ₹100.00                        1                      100.00",
-            "fact_id": "4c59ca327dbc42858da8e6080cc7f07a",
-            "verification": "verified",
-            "note": null,
-            "bbox": [
-              [
-                0.09136274749157476,
-                0.054434333184752805,
-                0.1919102388269761,
-                0.06594948335127397
-              ],
-              [
-                0.42319318983289933,
-                0.05312988011523931,
-                0.4306441662358303,
-                0.06588200848511976
-              ],
-              [
-                0.43064187243093854,
-                0.054434333184752805,
-                0.4815002640867545,
-                0.06594948335127397
-              ],
-              [
-                0.6750256906147876,
-                0.054434333184752805,
-                0.6898335974200879,
-                0.06594948335127397
-              ],
-              [
-                0.8485340791590074,
-                0.054434333184752805,
-                0.8928402171415442,
-                0.06594948335127397
-              ]
-            ]
-          },
-          {
-            "document_id": "9144a5f1a46d44c98dd521a20cae73ed",
-            "filename": "water_bill_invoice.pdf",
             "page": null,
             "sheet": null,
             "cell_range": null,
@@ -13745,30 +13008,28 @@
           }
         ],
         "gaps": [],
-        "inconsistencies": [
-          "There is a duplicate subtotal line on page 2 showing ₹0.00, but the correct subtotal is ₹151,174.88 as verified by the arithmetic check."
-        ],
+        "inconsistencies": [],
         "assumptions": [],
         "support": {
-          "citations": 11,
-          "verified": 9,
+          "citations": 5,
+          "verified": 3,
           "partial": 0,
           "unverified": 2,
           "calculations_ok": 2,
           "calculations": 2
         },
         "fy_report": null,
-        "elapsed_s": 25.67
+        "elapsed_s": 5.94
       },
       "score": {
         "scores": {
           "answer": 1.0,
           "status": 1.0,
-          "evidence": 0.9455,
+          "evidence": 0.88,
           "uncertainty": null,
           "calculation": 1.0
         },
-        "overall": 0.9864,
+        "overall": 0.97,
         "passed": true,
         "detail": {
           "missing": [],
@@ -13777,19 +13038,19 @@
           "evidence": {
             "sources_hit": 1,
             "sources": 1,
-            "citations": 11,
-            "supported": 9
+            "citations": 5,
+            "supported": 3
           },
           "sources_missed": [],
           "flags_missing": [],
           "calculations": [
             {
-              "expression": "105,605.50 + 500.00 + 26,401.38 + 11,605.00 + 6,963.00 + 100.00",
+              "expression": "105605.50 + 500.00 + 26401.38 + 11605.00 + 6963.00 + 100.00",
               "result": 151174.88,
               "ok": true
             },
             {
-              "expression": "151,174.88 + 7,558.74",
+              "expression": "151174.88 + 7558.74",
               "result": 158733.62,
               "ok": true
             }
@@ -13811,46 +13072,75 @@
           }
         ],
         "not_ready": [],
-        "status": "partial",
-        "answer": "yes",
+        "status": "answered",
+        "answer": "Yes, the consumption on the Adani bill matches its meter readings.",
         "key_values": [
           {
-            "label": "Total Energy Consumption (stated)",
-            "value": "47407",
+            "label": "Total Energy Consumption (billed)",
+            "value": "47407 kWh",
             "unit": "kWh",
             "origin": "reported",
             "citation_indexes": [
-              0
+              1,
+              80
             ]
           },
           {
-            "label": "Meter reading calculation result",
-            "value": "47407.2",
+            "label": "Present Reading",
+            "value": "4132.27",
+            "unit": "kWh",
+            "origin": "reported",
+            "citation_indexes": [
+              15
+            ]
+          },
+          {
+            "label": "Previous Reading",
+            "value": "3539.68",
+            "unit": "kWh",
+            "origin": "reported",
+            "citation_indexes": [
+              16
+            ]
+          },
+          {
+            "label": "Multiplying Factor",
+            "value": "80",
+            "unit": "",
+            "origin": "reported",
+            "citation_indexes": [
+              17
+            ]
+          },
+          {
+            "label": "Calculated Consumption",
+            "value": "47407.2 kWh",
             "unit": "kWh",
             "origin": "calculated",
             "citation_indexes": [
               1,
-              2,
-              3
+              15,
+              16,
+              17
             ]
           }
         ],
         "calculations": [
           {
             "description": "Consumption from meter readings",
-            "expression": "(4132.27 - 3539.68) * 80 = 47407.2",
+            "expression": "(4132.27 - 3539.68) × 80 = 47407.2",
             "result": 47407.2,
             "unit": "kWh",
             "recomputed": 47407.20000000005,
             "ok": true
           },
           {
-            "description": "Rounded consumption stated on bill",
-            "expression": "47407 (rounded from 47407.2)",
-            "result": 47407.0,
+            "description": "Rounding difference",
+            "expression": "47407.2 - 47407 = 0.2",
+            "result": 0.2,
             "unit": "kWh",
-            "recomputed": null,
-            "ok": false
+            "recomputed": 0.19999999999708962,
+            "ok": true
           }
         ],
         "citations": [
@@ -13975,69 +13265,77 @@
           {
             "document_id": "dc37d7206e03492cb47a6842c789479f",
             "filename": "Adani commercial electricity bill.pdf",
-            "page": null,
+            "page": 1,
             "sheet": null,
             "cell_range": null,
-            "quote": "Consumption = (present reading - previous reading) * multiplying factor: (4,132.27 - 3,539.68) x 80 = 47,407.2; stated Total Energy Consumption (47407); difference -0.2",
-            "fact_id": null,
-            "verification": "unverified",
-            "note": "quote not found in the document text"
+            "quote": "Units Consumed 47407",
+            "fact_id": "1841c4cc612643988dc771bdbe627dc1",
+            "verification": "verified",
+            "note": null,
+            "bbox": [
+              [
+                0.5441253662109375,
+                0.20652203461095664,
+                0.6242874348958334,
+                0.2158861752957274
+              ],
+              [
+                0.5441253662109375,
+                0.22134057456266185,
+                0.582373779296875,
+                0.2333058646394259
+              ]
+            ]
           }
         ],
         "gaps": [],
         "inconsistencies": [],
-        "assumptions": [],
+        "assumptions": [
+          "The minor rounding difference of 0.2 kWh is considered acceptable and does not indicate a mismatch."
+        ],
         "support": {
           "citations": 5,
-          "verified": 4,
+          "verified": 5,
           "partial": 0,
-          "unverified": 1,
-          "calculations_ok": 1,
+          "unverified": 0,
+          "calculations_ok": 2,
           "calculations": 2
         },
         "fy_report": null,
-        "elapsed_s": 18.87
+        "elapsed_s": 9.44
       },
       "score": {
         "scores": {
-          "answer": 0.3333,
-          "status": 0.0,
-          "evidence": 0.94,
+          "answer": 1.0,
+          "status": 1.0,
+          "evidence": 1.0,
           "uncertainty": null,
-          "calculation": 0.0
+          "calculation": 1.0
         },
-        "overall": 0.3808,
-        "passed": false,
+        "overall": 1.0,
+        "passed": true,
         "detail": {
-          "missing": [
-            [
-              80
-            ],
-            [
-              4132.27,
-              3539.68
-            ]
-          ],
+          "missing": [],
           "violations": [],
-          "status": "partial",
+          "status": "answered",
           "evidence": {
             "sources_hit": 1,
             "sources": 1,
             "citations": 5,
-            "supported": 4
+            "supported": 5
           },
           "sources_missed": [],
           "flags_missing": [],
           "calculations": [
             {
-              "expression": "(4132.27 - 3539.68) * 80 = 47407.2",
+              "expression": "(4132.27 - 3539.68) × 80 = 47407.2",
               "result": 47407.2,
               "ok": true
             },
             {
-              "expression": "47407 (rounded from 47407.2)",
-              "result": 47407.0,
-              "ok": false
+              "expression": "47407.2 - 47407 = 0.2",
+              "result": 0.2,
+              "ok": true
             }
           ]
         }
@@ -14058,7 +13356,7 @@
         ],
         "not_ready": [],
         "status": "partial",
-        "answer": "The policy applies to all employees, was approved by the Executive Board of Nestlé S.A. in June 2026, and commits to four principles: (1) Food Safety and Compliance are Non‑Negotiable, (2) Quality enables Unrivaled Product Superiority, (3) Quality is End‑to‑End, and (4) Food Safety and Quality are Everyone’s Responsibility. The exact day of approval is not provided.",
+        "answer": "The policy applies to all employees, was approved by the Executive Board of Nestlé S.A. in June 2026, and commits to four principles: (1) Food Safety and Compliance are Non‑Negotiable, (2) Quality enables Unrivaled Product Superiority, (3) Quality is End‑to‑End, and (4) Food Safety and Quality are Everyone’s Responsibility.",
         "key_values": [
           {
             "label": "Target audience",
@@ -14066,7 +13364,7 @@
             "unit": null,
             "origin": "reported",
             "citation_indexes": [
-              0
+              -1
             ]
           },
           {
@@ -14075,16 +13373,16 @@
             "unit": null,
             "origin": "reported",
             "citation_indexes": [
-              1
+              -1
             ]
           },
           {
-            "label": "Date of approval",
+            "label": "Approval date",
             "value": "June 2026",
             "unit": null,
             "origin": "reported",
             "citation_indexes": [
-              2
+              -1
             ]
           },
           {
@@ -14093,7 +13391,7 @@
             "unit": null,
             "origin": "reported",
             "citation_indexes": [
-              3
+              -1
             ]
           },
           {
@@ -14102,7 +13400,7 @@
             "unit": null,
             "origin": "reported",
             "citation_indexes": [
-              4
+              -1
             ]
           },
           {
@@ -14111,7 +13409,7 @@
             "unit": null,
             "origin": "reported",
             "citation_indexes": [
-              5
+              -1
             ]
           },
           {
@@ -14120,7 +13418,7 @@
             "unit": null,
             "origin": "reported",
             "citation_indexes": [
-              6
+              -1
             ]
           }
         ],
@@ -14393,7 +13691,7 @@
           }
         ],
         "gaps": [
-          "The exact day of approval is not provided; only the month and year (June 2026) are given."
+          "The approval date is given as 'June 2026' but no specific day or version number is provided."
         ],
         "inconsistencies": [],
         "assumptions": [],
@@ -14406,7 +13704,7 @@
           "calculations": 0
         },
         "fy_report": null,
-        "elapsed_s": 37.76
+        "elapsed_s": 13.33
       },
       "score": {
         "scores": {

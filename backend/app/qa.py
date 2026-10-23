@@ -296,7 +296,8 @@ def ask(
         }
     pack = build_pack(conn, question, ready, fy)
     system = QA_SYSTEM_V1
-    prompt = f"Question: {question}\n\n# Evidence\n\n{pack.text}"
+    asked_for = f"\nFinancial year: {fy.label} ({fy.start} to {fy.end})" if fy else ""
+    prompt = f"Question: {question}{asked_for}\n\n# Evidence\n\n{pack.text}"
     if pending:
         prompt += "\nNot yet processed (no evidence available): " + ", ".join(p["filename"] for p in pending)
     ans = llm.generate(system=system, parts=[prompt], schema=Answer, purpose="answer")

@@ -13,6 +13,7 @@ dependencies = [
   "google-genai>=1.0",
   "pyyaml>=6.0",
   "python-dotenv>=1.0",
+  "json-repair>=0.30",
 ]
 
 [dependency-groups]

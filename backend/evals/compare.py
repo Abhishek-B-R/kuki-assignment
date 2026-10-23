@@ -80,6 +80,23 @@ def main() -> int:
         if group:
             lines.append(f"| {label} | {len(group)} | {sum(b)}/{len(b)} ({sum(b) / len(b):.0%}) | {sum(m)}/{len(m)} ({sum(m) / len(m):.0%}) |")
 
+    abl_runs = runs("v1-64k")
+    if abl_runs:
+        lines += ["", "## Ablation: v1 with a larger output cap", "",
+                  "v1 extraction of the workbook re-run with the 64k-token cap (the baseline ran with 32k, which cut the "
+                  "workbook off). This separates the series design from simply allowing longer output.", "",
+                  "| Pipeline | Runs | Passed per run | Mean passed | Mean overall | Pass rate, cases touched by the workbook |",
+                  "|---|---|---|---|---|---|"]
+        touched_ids = [i for i in ids if touched(i)]
+        for label, rs in (("Baseline (v1, 32k)", base_runs), ("v1, 64k", abl_runs), ("Improved (v2)", imp_runs)):
+            passed = [r["summary"]["passed"] for r in rs]
+            t = [x for i in touched_ids for x in hits(rs, i)]
+            lines.append(f"| {label} | {len(rs)} | {', '.join(map(str, passed))} | {sum(passed) / len(rs):.1f}/{rs[0]['summary']['cases']}"
+                         f" | {sum(r['summary']['overall'] for r in rs) / len(rs):.2f} | {sum(t)}/{len(t)} ({sum(t) / len(t):.0%}) |")
+        wb = lambda r: next((d for d in r.get("extraction", []) if d["filename"].startswith("Annual")), {})
+        lines += ["", f"Workbook extraction: v1 at 64k produced {wb(abl_runs[0]).get('facts')} facts; v2 produced "
+                  f"{wb(imp).get('facts')}."]
+
     lines += ["", "## Per case", "", "| Case | Touched by change | Baseline | Improved | Change | Status (base -> improved) | Passes across runs (base / improved) |",
               "|---|---|---|---|---|---|---|"]
     imp_by = {c["id"]: c for c in imp["cases"]}
