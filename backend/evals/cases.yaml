@@ -1,0 +1,272 @@
+# Evaluation cases. Each expected value was checked by hand against the documents in dataset/.
+#
+# Scoring (see evals/score.py):
+#   must_include   every item must appear in the answer text or key values. An item is a list of
+#                  alternatives; numbers match numerically (63,000 == 63000), strings case-insensitively.
+#   expected_status  allowed answer statuses.
+#   sources        evidence the answer must cite (verified or partial citation in that doc + page / sheet range).
+#   must_flag      items that must appear in gaps / inconsistencies / assumptions / answer text.
+#   must_not       regexes that must NOT match the answer text (wrong claims).
+#   calculation    true when the answer must show at least one arithmetic step, all of which must recompute.
+
+- id: C01
+  title: Electricity per bill and billing period
+  question: What electricity consumption does each bill report, and for which period?
+  documents: [Adani commercial electricity bill.pdf, BESCOM Commercial Electricity Bill.pdf]
+  expected_answer: >
+    Adani (J Kumar MEPL JV, Mumbai): 47,407 kWh for the April 2024 bill, period 01-04-2024 to 30-04-2024
+    (meter read 31-03-2024 to 30-04-2024). BESCOM (Prestige Estates, Bengaluru): 63,000 kWh net consumption
+    for 01-06-2024 to 01-07-2024.
+  expected_status: [answered]
+  must_include:
+    - [47407]
+    - [63000]
+    - [april 2024, apr 2024, apr-24, 01-04-2024, 2024-04-01, 1 april 2024, 01/04/2024, 31-03-2024]
+    - [june 2024, jun 2024, 01-06-2024, 2024-06-01, 1 june 2024, 01/06/2024]
+  sources:
+    - {doc: Adani commercial electricity bill.pdf, pages: [1, 2]}
+    - {doc: BESCOM Commercial Electricity Bill.pdf, pages: [1]}
+
+- id: C02
+  title: Water consumption vs meter readings
+  question: Does the water consumption match the meter readings?
+  documents: [water_bill_invoice.pdf]
+  expected_answer: Yes. 14,821 - 12,500 = 2,321 cubic metres, which equals the 2,321 m3 billed for December 2025.
+  expected_status: [answered]
+  must_include:
+    - [2321]
+    - [14821]
+    - [12500]
+  calculation: true
+  sources:
+    - {doc: water_bill_invoice.pdf, pages: [1]}
+
+- id: C03
+  title: Total hazardous waste recorded
+  question: What total waste quantity is recorded?
+  documents: [form 3 filled.docx.pdf]
+  expected_answer: >
+    2.4 MT in total, all dated 10.03.2023: ETP sludge 1.0 T, waste powder 0.5 T, phosphate sludge 0.5 T,
+    oil-containing residues 0.4 T. The total is calculated; the form does not state one.
+  expected_status: [answered, partial]
+  must_include:
+    - [2.4]
+    - [etp sludge]
+    - [oil]
+  calculation: true
+  sources:
+    - {doc: form 3 filled.docx.pdf, pages: [1]}
+
+- id: C04
+  title: Workbook monthly values vs annual summaries
+  question: Do the workbook's monthly values and annual summaries agree?
+  documents: [Annual Electricity Consumption.xlsx]
+  expected_answer: >
+    No. On 'Monthly Summary 2026' the ANNUAL TOTAL row understates grid supply (1,533,290 stated vs 1,534,290
+    summed), total consumption (2,425,123 vs 2,426,123) and grid/net cost (13,798,610 vs 13,808,610). The
+    Quarterly Summary disagrees too (e.g. Q1 total 585,323 vs 584,323 from the months; annual total 2,427,123).
+  expected_status: [conflicting]
+  must_include:
+    - [1533290, 2425123, 13798610]
+    - [1534290, 2426123, 13808610]
+  must_flag:
+    - ["1,000", "1000", "10,000", "10000"]
+  sources:
+    - {doc: Annual Electricity Consumption.xlsx, sheet: Monthly Summary 2026, cells: "B3:J16"}
+
+- id: C05
+  title: Complaint-resolution deadline in the policy (absent)
+  question: Does the quality policy specify a deadline for resolving customer complaints?
+  documents: [quality_policy_nestle.pdf]
+  expected_answer: >
+    No. The Food Safety and Quality Policy states commitments (food safety and compliance non-negotiable,
+    quality end-to-end, everyone's responsibility) but sets no complaint-resolution deadline or timeframe.
+  expected_status: [not_found, answered]
+  must_include:
+    - ["does not specify", "no deadline", "not specify", "does not mention", "no specific", "not mentioned",
+       "no explicit", "does not contain", "does not include", "not specified", "does not set", "no timeframe",
+       "no mention", "does not state", "not stated", "does not provide", "not include"]
+  must_not:
+    - 'within \d+\s*(working\s+)?(days|hours)'
+  sources:
+    - {doc: quality_policy_nestle.pdf, pages: [3]}
+
+- id: C06
+  title: Distinguishing amounts on the Adani bill
+  question: On the Adani bill, what is the total amount payable, and how does it differ from the current month's bill amount?
+  documents: [Adani commercial electricity bill.pdf]
+  expected_answer: >
+    Current month's bill (A) is Rs 632,023.17. After net other charges of Rs 510.00 credit (digital payment
+    discount 500 + adjustment 10) and the previous balance of Rs 2.31, the total bill amount is Rs 631,515.48,
+    shown rounded as Rs 631,510.00 payable by 30-05-2024 (Rs 626,420 if paid by the 16-05-2024 discount date,
+    Rs 639,410 after the due date).
+  expected_status: [answered]
+  must_include:
+    - [631515.48, 631510]
+    - [632023.17]
+    - [510]
+  sources:
+    - {doc: Adani commercial electricity bill.pdf, pages: [1, 2]}
+
+- id: C07
+  title: FY 2024-25 electricity across bills (two organisations, two months)
+  question: What is the total electricity consumption for FY 2024-25, and how complete is the data?
+  documents: all
+  expected_answer: >
+    Only two monthly bills fall in FY 2024-25, for different organisations: J Kumar MEPL JV (Adani, April 2024)
+    47,407 kWh and Prestige Estates (BESCOM, June 2024) 63,000 kWh. Each covers 1 of 12 months, so no complete
+    FY total exists; adding them (110,407 kWh) would mix organisations. The workbook (calendar 2026) is outside this FY.
+  expected_status: [partial]
+  must_include:
+    - [47407]
+    - [63000]
+  must_flag:
+    - ["different organisation", "two organisation", "two different", "separate organisation", "different compan",
+       "different entit", "separate entit", "distinct organisation", "different consumer", "separate", "per organisation"]
+    - ["1 of 12", "one month", "1 month", "11 months", "missing", "incomplete", "single month", "only one month"]
+  sources:
+    - {doc: Adani commercial electricity bill.pdf, pages: [1, 2]}
+    - {doc: BESCOM Commercial Electricity Bill.pdf, pages: [1]}
+
+- id: C08
+  title: FY 2025-26 electricity from the calendar-year workbook
+  question: What was the total electricity consumption in FY 2025-26?
+  documents: all
+  expected_answer: >
+    Only January-March 2026 from the workbook fall in FY 2025-26: 200,823 + 181,700 + 201,800 = 584,323 kWh
+    (calculated). April-December 2025 are missing (3 of 12 months covered). The workbook's Quarterly Summary
+    states 585,323 kWh for Q1, which disagrees with the monthly values by 1,000 kWh.
+  expected_status: [partial]
+  must_include:
+    - [584323]
+  must_flag:
+    - ["3 of 12", "three months", "3 months", "only january", "january to march", "january-march", "january–march",
+       "jan-mar", "jan–mar", "jan to mar", "9 months", "nine months", "april 2025", "apr 2025", "2025-04"]
+  calculation: true
+  sources:
+    - {doc: Annual Electricity Consumption.xlsx, sheet: Monthly Summary 2026, cells: "B3:F5"}
+
+- id: C09
+  title: FY 2026-27 electricity (9 of 12 months)
+  question: What is the total electricity consumption for FY 2026-27?
+  documents: [Annual Electricity Consumption.xlsx]
+  expected_answer: >
+    April-December 2026 from the workbook: 1,841,800 kWh (calculated from monthly totals). January-March 2027
+    are not in any document, so the FY is only 9 of 12 months covered.
+  expected_status: [partial]
+  must_include:
+    - [1841800]
+  must_flag:
+    - ["9 of 12", "nine months", "9 months", "january 2027", "jan 2027", "2027-01", "january to march 2027",
+       "jan-mar 2027", "january-march 2027", "3 months", "three months"]
+  sources:
+    - {doc: Annual Electricity Consumption.xlsx, sheet: Monthly Summary 2026, cells: "B6:F14"}
+
+- id: C10
+  title: FY 2025-26 water (single bill)
+  question: How much water was consumed in FY 2025-26?
+  documents: all
+  expected_answer: >
+    2,321 cubic metres, from the single December 2025 water bill (Coca-Cola Beverages, Hyderabad). That is 1 of
+    12 months, so FY 2025-26 water consumption is incomplete.
+  expected_status: [partial]
+  must_include:
+    - [2321]
+  must_flag:
+    - ["1 of 12", "one month", "only december", "december 2025 only", "11 months", "single month", "only one",
+       "one bill", "single bill", "incomplete", "missing"]
+  sources:
+    - {doc: water_bill_invoice.pdf, pages: [1]}
+
+- id: C11
+  title: BESCOM recorded vs billing demand
+  question: On the BESCOM bill, what was the recorded maximum demand and the billing demand, and why do they differ?
+  documents: [BESCOM Commercial Electricity Bill.pdf]
+  expected_answer: >
+    Recorded demand 232 kVA; billing demand 675 kVA, which is 90% of the 750 kVA contract demand. Demand is billed
+    on the higher of recorded demand and 90% of contract demand, so 675 kVA x Rs 365 = Rs 246,375.
+  expected_status: [answered]
+  must_include:
+    - [232]
+    - [675]
+  must_flag:
+    - ["90%", "90 %", "contract demand", "750"]
+  sources:
+    - {doc: BESCOM Commercial Electricity Bill.pdf, pages: [1]}
+
+- id: C12
+  title: Waste in a financial year with no records
+  question: How much hazardous waste was recorded in FY 2023-24?
+  documents: all
+  expected_answer: >
+    None. The only waste records (Form 3, TMTE Metal Tech) are dated 10.03.2023, which falls in FY 2022-23, so no
+    waste quantity is recorded for FY 2023-24.
+  expected_status: [not_found, partial]
+  must_include:
+    - ["fy 2022-23", "2022-23", "march 2023", "10.03.2023", "10 march 2023", "2023-03-10", "fy2022-23"]
+  sources:
+    - {doc: form 3 filled.docx.pdf, pages: [1]}
+
+- id: C13
+  title: Inconsistencies and gaps in the waste record
+  question: Is anything inconsistent or missing in the hazardous waste record?
+  documents: [form 3 filled.docx.pdf]
+  expected_answer: >
+    The form is signed and dated 08.03.2022, a year before the waste entries it records (10.03.2023). Section 4
+    (management of the waste) and section 5 (environmental monitoring date) are blank ("------").
+  expected_status: [conflicting, partial, answered]
+  must_flag:
+    - ["08.03.2022", "8 march 2022", "march 2022", "2022-03-08"]
+    - ["section 4", "section 5", "item 4", "item 5", "environmental monitoring", "management of", "blank",
+       "not filled", "empty", "left blank", "dashes", "---"]
+  sources:
+    - {doc: form 3 filled.docx.pdf, pages: [1, 2]}
+
+- id: C14
+  title: Water bill line items add up
+  question: Do the water bill's line items and tax add up to the total amount due?
+  documents: [water_bill_invoice.pdf]
+  expected_answer: >
+    Yes. 105,605.50 + 500.00 + 26,401.38 + 11,605.00 + 6,963.00 + 100.00 = 151,174.88 subtotal; 5% GST 7,558.74;
+    151,174.88 + 7,558.74 = 158,733.62 total due.
+  expected_status: [answered]
+  must_include:
+    - [151174.88]
+    - [7558.74]
+    - [158733.62]
+  calculation: true
+  sources:
+    - {doc: water_bill_invoice.pdf, pages: [1, 2]}
+
+- id: C15
+  title: Adani consumption vs meter readings
+  question: Does the consumption on the Adani bill match its meter readings?
+  documents: [Adani commercial electricity bill.pdf]
+  expected_answer: >
+    Yes. (4132.27 - 3539.68) x 80 (multiplying factor) = 47,407.2 kWh, billed as 47,407 kWh.
+  expected_status: [answered]
+  must_include:
+    - [47407]
+    - [80]
+    - [4132.27, 3539.68]
+  calculation: true
+  sources:
+    - {doc: Adani commercial electricity bill.pdf, pages: [2]}
+
+- id: C16
+  title: Policy scope, approval and commitments
+  question: Who does the Nestlé quality policy apply to, who approved it and when, and what does it commit to?
+  documents: [quality_policy_nestle.pdf]
+  expected_answer: >
+    Target audience: all employees. Approved by the Executive Board of Nestlé S.A. in June 2026 (issued by
+    Corporate Quality Management). Commitments: food safety and compliance are non-negotiable, quality enables
+    product superiority, quality is end-to-end across the value chain, and food safety and quality are
+    everyone's responsibility.
+  expected_status: [answered]
+  must_include:
+    - [all employees]
+    - [executive board]
+    - [june 2026]
+    - [end-to-end, end to end, value chain]
+  sources:
+    - {doc: quality_policy_nestle.pdf, pages: [2, 3]}

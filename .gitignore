@@ -1,0 +1,11 @@
+.env
+data/
+backend/.venv/
+backend/evals/.work/
+**/__pycache__/
+.pytest_cache/
+frontend/node_modules/
+frontend/dist/
+.DS_Store
+.claude/
+*.part
