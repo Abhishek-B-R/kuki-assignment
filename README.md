@@ -305,6 +305,22 @@ extracting anything again.
 - **No answers are hardcoded.** Prompts are generic, and nothing in the code refers to the sample
   documents. The FY engine, checks and verification work on any document that yields facts.
 
+## How this was built
+
+I chose the stack (FastAPI + React), the two LLM providers (Gemini, then DeepSeek on OpenRouter, with
+both kept behind one interface) and the evaluation plan, and I checked the outcomes against the
+supplied documents. I used Claude Code as a coding assistant for much of the implementation, the tests
+and the debugging, and reviewed what it produced before keeping it.
+
+Tools used:
+
+- **AI coding assistant:** Claude Code (Anthropic)
+- **Model providers:** Google Gemini API (`gemini-3.5-flash`); OpenRouter serving DeepSeek
+  `deepseek/deepseek-v4-flash` (hosted by Parasail and DeepInfra), which ran the evals
+- **Backend:** Python 3, FastAPI, Uvicorn, SQLite, Pydantic, PyMuPDF, openpyxl, httpx, google-genai,
+  json-repair, uv, pytest
+- **Dashboard:** React, TypeScript, Vite
+
 ## Known limitations
 
 - **Text-only models never see the page image.** With DeepSeek, a scanned page without a text layer has nothing

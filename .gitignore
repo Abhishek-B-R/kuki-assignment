@@ -6,6 +6,7 @@ backend/evals/.work/
 .pytest_cache/
 frontend/node_modules/
 frontend/dist/
+docs/
 .DS_Store
 .claude/
 *.part
